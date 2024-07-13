@@ -1,0 +1,125 @@
+{%extends "user_dashboard_template.html"%}
+{%block title%}
+  <title>Cardio</title>
+{%endblock%}
+<body>
+    {%block content%}
+    <h1>Workout Suggestions [Cardio]</h1>
+    <div class="row">
+                        <!-- Area Chart -->
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6>HIIT Cardio Workout - No Equipment at Home | SELF</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <iframe width="400" height="400" src="https://www.youtube.com/embed/ml6cT4AZdqI">
+                                     </iframe>
+                                     <div class="signup-form">
+                                        <form action="/cardio" method="POST">
+                                        {{ form.hidden_tag() }}
+                                        <div class="form-group">
+                                            {{ form.cardio_wo.label(class="form-control-label") }}
+                                            {% if form.cardio_wo.errors %}
+                                              {{ form.cardio_wo(class="form-control form-control-lg is-invalid") }}
+                                              <div class="alert alert-danger">
+                                                {% for error in form.cardio_wo.errors %}
+                                                  <span>{{ error }}</span>
+                                                {% endfor %}
+                                              </div>
+                                            {% else %}
+                                              {{ form.cardio_wo(class="form-control form-control-lg") }}
+                                            {% endif %}     
+                                        </div> 
+                                        <div class="form-group">
+                                        {{ form.submit(class="btn btn-outline-info")}}
+                                      </div> 
+                                      </form>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6>15 Minute Full Body Cardio Workout (No Equipment)</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <iframe width="400" height="400" src="https://www.youtube.com/embed/IvmaekQfKiw">
+                                     </iframe>
+                                     <div class="signup-form">
+                                      <form action="/cardio" method="POST">
+                                      {{ form.hidden_tag() }}
+                                      <div class="form-group">
+                                          {{ form.cardio_wo.label(class="form-control-label") }}
+                                          {% if form.cardio_wo.errors %}
+                                            {{ form.cardio_wo(class="form-control form-control-lg is-invalid") }}
+                                            <div class="alert alert-danger">
+                                              {% for error in form.cardio_wo.errors %}
+                                                <span>{{ error }}</span>
+                                              {% endfor %}
+                                            </div>
+                                          {% else %}
+                                            {{ form.cardio_wo(class="form-control form-control-lg") }}
+                                          {% endif %}     
+                                      </div> 
+                                      <div class="form-group">
+                                      {{ form.submit(class="btn btn-outline-info")}}
+                                    </div> 
+                                    </form>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6>15 Minute Full Body Dumbbell Workout </h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <iframe width="400" height="400" src="https://www.youtube.com/embed/xqVBoyKXbsA">
+                                     </iframe>
+                                     <div class="signup-form">
+                                      <form action="/cardio" method="POST">
+                                      {{ form.hidden_tag() }}
+                                      <div class="form-group">
+                                          {{ form.cardio_wo.label(class="form-control-label") }}
+                                          {% if form.cardio_wo.errors %}
+                                            {{ form.cardio_wo(class="form-control form-control-lg is-invalid") }}
+                                            <div class="alert alert-danger">
+                                              {% for error in form.cardio_wo.errors %}
+                                                <span>{{ error }}</span>
+                                              {% endfor %}
+                                            </div>
+                                          {% else %}
+                                            {{ form.cardio_wo(class="form-control form-control-lg") }}
+                                          {% endif %}     
+                                      </div> 
+                                      <div class="form-group">
+                                      {{ form.submit(class="btn btn-outline-info")}}
+                                    </div> 
+                                    </form>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+    {%endblock%}
+     <!-- Content Row -->
+
+</body>
+
+</html>

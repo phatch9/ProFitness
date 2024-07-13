@@ -1,0 +1,71 @@
+{% extends "base.html" %} {% block content %}
+<title>Timer</title>
+<div class="center_div">
+  <h1>Workout Timer & Listen to music</h1>
+
+  <div class="music-container" id="music-container">
+    <div class="music-info">
+      <h4 id="title"></h4>
+      <div class="progress-container" id="progress-container">
+        <div class="progress" id="progress"></div>
+      </div>
+    </div>
+
+    <audio src="static/music/ukulele.mp3" id="audio"></audio>
+
+    <div class="img-container">
+      <img src="static/images/ukulele.jpg" alt="music-cover" id="cover" />
+    </div>
+    <div class="navigation">
+      <button id="prev" class="action-btn">
+        <i class="fas fa-backward"></i>
+      </button>
+      <button id="play" class="action-btn action-btn-big">
+        <i class="fas fa-play"></i>
+      </button>
+      <button id="next" class="action-btn">
+        <i class="fas fa-forward"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="pomodoroTimer_container">
+    <p id="work" class="label">Time:</p>
+    <p id="break" class="label">Break:</p>
+
+    <!--Work Timer-->
+    <div id="work-timer" class="pomodoroTimer">
+      <p id="w_minutes">25</p>
+      <p class="semicolon">:</p>
+      <p id="w_seconds">00</p>
+    </div>
+
+    <!--Break Timer-->
+    <div id="break-timer" class="pomodoroTimer">
+      <p id="b_minutes">05</p>
+      <p class="semicolon">:</p>
+      <p id="b_seconds">00</p>
+    </div>
+
+    <button id="start" class="btnz">Start</button>
+    <button id="stop" class="btnz">Pause</button>
+    <button id="reset" class="btnz">Reset</button>
+  </div>
+
+  <!--Already cite the source from the internet -->
+  <!-- <div class="tenor-gif-embed squid__gif" data-postid="23490293" 
+        data-share-method="host" data-aspect-ratio="0.896875" data-width="300px">
+        <a href="https://tenor.com/view/squid-game-squid-game-ez-guard-gif-23490293">
+            Squid Game Ez GIF
+        </a>
+        from
+        <a href="https://tenor.com/search/squid+game-gifs">
+            Squid Game GIFs
+        </a>
+    </div> -->
+</div>
+
+<script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<script src="{{ url_for('static', filename='js/pomodoroTimer.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script_music.js') }}"></script>
+{% endblock %}

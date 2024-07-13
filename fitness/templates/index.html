@@ -1,0 +1,100 @@
+{%extends "base.html"%}
+
+{%block title%}
+  <title>Home</title>
+{%endblock%}
+
+<body>
+  {%block content%}
+
+  <section class="home__container">
+    {% if not current_user.is_authenticated %}
+    <div>
+        <div>
+            <img src="../static/img/fitpal" alt="" class="home__img">
+        </div>
+
+        <div>
+            <p>FitPal</p>
+            <p>First Work-Out Metaverse<br> Learn to get healthier!</p>
+            <p>
+                <ul>
+                    <li class="home__list"> Dashboard</li>
+                    <li class="home__list"> Cardio Workout Suggestions</li>
+                    <li class="home__list"> Anaerobic Workout Suggestions</li>
+                    <li class="home__list"> To Do List</li>
+                    <li class="home__list"> Keep Track of Workout Records</li>
+                    <li class="home__list"> Workout Timer & Listen to Music</li>
+                </ul>
+            </p>
+            <div class="home__buttons">
+                <a href="/signup" class="button">Workout Now</a>
+            </div>
+        </div>
+    </div>
+
+    <h2>Our Features</h2>
+    <div class="home__img_feature">
+        <img src="../static/img/home_flashc.jfif" alt="" class="home__imgz">
+        <img src="../static/img/Shareflashcard.jfif" alt="" class="home__imgz">
+        <img src="../static/img/UploadNotes.jfif" alt="" class="home__imgz">
+        <img src="../static/img/ShareNote.jfif" alt="" class="home__imgz">
+        <img src="../static/img/TodoList.jfif" alt="" class="home__imgz">
+        <img src="../static/img/PomodoroTimer.jfif" alt="" class="home__imgz">
+        <img src="../static/img/TrackHour.jfif" alt="" class="home__imgz">
+    </div>
+    {% else %}
+    <div class="home__img_cover">
+        <div class="home__data_container">
+            <p class="home__title">FitPal</p>
+            <p class="home__subtitle">Welcome Back<br></p>
+            <p class="home__list_container">
+                <ul>
+                    <li class="home__list">
+                        <a class="home__link" href="/user">Dashboard</a>
+                    </li>
+                    <li class="home__list">
+                        <a class="home__link" href="/cardio">Cardio Workout Suggestions</a>
+                    </li>
+                    <li class="home__list">
+                        <a class="home__link" href="/strength">Anaerobic Workout Suggestions</a>
+                    </li>
+                    <li class="home__list">
+                        <a class="home__link" href="/todolist">To Do List</a>
+                    </li>
+                    <li class="home__list">
+                        <a class="home__link" href="/admin">Keep Track of Workout Records</a>
+                    </li>
+                    <li class="home__list">
+                        <a class="home__link" href="/pomodoroTimer">Workout Timer & Listen to Music</a>
+                    </li>
+                </ul>
+            </p>
+        </div>
+    </div>
+        
+
+    {% endif %}
+</section>
+
+  <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+    
+  </div>
+
+  
+
+ 
+{%endblock%}
+</body>
+
+</html>

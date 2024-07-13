@@ -1,0 +1,52 @@
+{%extends "base.html"%}
+{%block title%}
+  <title>Home</title>
+{%endblock%}
+<body>
+  {%block content%}
+  <!-- Main Content -->
+  
+  <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+    <div class="row">
+      <div class="col-lg-15 col-md-20 mx-auto">
+        {% for post in posts %}
+        <div class="post-preview">
+          <a href="{{ url_for('mypost', post_id=post.id) }}" rel="noopener noreferrer">
+            <h2 class="post-title">
+              {{ post.title }}
+            </h2>    
+          </a>
+            <p class="post-subtitle">
+              {{ post.content }}
+            </p>
+          <p class="post-meta">Posted by
+            <a href="#"> {{ post.author.fname }} {{ post.author.lname }}</a>
+            on {{post.date_posted.strftime("%m-%d-%Y")}}</p>
+        </div>
+        <hr>
+        {% endfor %}
+        
+        <!-- Pager -->
+        <div class="clearfix">
+          <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+ 
+{%endblock%}
+</body>
+
+</html>
