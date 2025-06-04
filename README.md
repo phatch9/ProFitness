@@ -1,14 +1,5 @@
-```txt
-Contributors
 
-Jimin Song [Project Manager, Full-Stack Developer]
-Danh Pham [Front-End Developer]
-Suhail Khan [System Engineer]
-```
-
-Feel free to ask any questions through E-mail: jiminsong.software@gmail.com
-
-[FitPal]
+[GymPlus]
 
 Using Vanilla Javascript, Flask, SQLAlchemy(SQLite)
 
@@ -16,7 +7,6 @@ Using Vanilla Javascript, Flask, SQLAlchemy(SQLite)
 Use Python 3.8-3.10
 To run the flask application, run these commands below
 ```
-git clone https://github.com/JimSongTheGreatest/FitPal.git
 
 cd FitPal
 
