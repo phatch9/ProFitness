@@ -35,19 +35,19 @@ Creates the following in ~/.venv
 		lib/
 		pyvenv.cfg does not create pip-selfcheck.json 
 
-# to activate the venv
-source ~/.venv/bin/activate
+#### To activate the venv
+```source ~/.venv/bin/activate```
 
-# now you can..
-python3 -m pip install <module name>
+#### Now you can..
+```python3 -m pip install <module name>```
 
-# and it will install the module in the virtual env
+and it will install the module in the virtual env
 
-# to deactivate the venv
-deactivate # or exit the shell
+#### to deactivate the venv
+```deactivate # or exit the shell```
 
-```
-Note, you can chose any folder location and name that you want for the venv. ~/.venv is typical.
+### Note:
+You can chose any folder location and name that you want for the venv. ~/.venv is typical.
 Your project code can be in any directory.
 ```
 ### Open Source
