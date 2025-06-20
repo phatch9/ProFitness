@@ -7,25 +7,52 @@ Using Vanilla Javascript, Flask, SQLAlchemy(SQLite)
 Use Python 3.8-3.10
 To run the flask application, run these commands below
 ```
-
 cd FitPal
 
 pip3 install -r requirements.txt
 
 python3 run.py
-
 ```
 after that, open the url:
 http://localhost:5001/
 
-To Login with Demo ID/Password
+Test the app with Demo ID/Password
 ```txt
-Email: test@gmail.com
-Password: test123456
+Email: account@gmail.com
+Password: 0000000000
+```
 
+[Pip install throws error: externally-managed-environment]
+```
+mkdir ~/.venv
+```
+```
+python3 -m venv ~/.venv
+```
+Creates the following in ~/.venv
+		bin/
+		include/
+		lib/
+		pyvenv.cfg does not create pip-selfcheck.json 
+
+# to activate the venv
+source ~/.venv/bin/activate
+
+# now you can..
+python3 -m pip install <module name>
+
+# and it will install the module in the virtual env
+
+# to deactivate the venv
+deactivate # or exit the shell
+
+```
+Note, you can chose any folder location and name that you want for the venv. ~/.venv is typical.
+Your project code can be in any directory.
 ```
 ### Open Source
 We encourage anyone who is interested in this project, please fork the repo and work on issues opened and open pull request. I will review and merge it.
+
 
 ### Project Structure
 
