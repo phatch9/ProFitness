@@ -112,7 +112,7 @@ We encourage anyone who is interested in this project, please fork the repo and 
 │       ├── base.html
 │       └── user_dashboard.html
 ├── requirements.txt
-└── run.py
+└── app.py
 
 14 directories, 35 files
 
