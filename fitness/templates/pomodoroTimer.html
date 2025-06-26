@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <title>Timer</title>
 <div class="center_div">
-  <h1>Workout Timer & Listen to music</h1>
+  <h1>Workout Session</h1>
 
   <div class="music-container" id="music-container">
     <div class="music-info">
@@ -30,26 +30,30 @@
   </div>
 
   <div class="pomodoroTimer_container">
-    <p id="work" class="label">Time:</p>
-    <p id="break" class="label">Break:</p>
-
-    <!--Work Timer-->
-    <div id="work-timer" class="pomodoroTimer">
-      <p id="w_minutes">25</p>
-      <p class="semicolon">:</p>
-      <p id="w_seconds">00</p>
+    <h2>Pomodoro Timer</h2>
+    <div class="row mb-3">
+      <!--Work Session-->
+      <div class="col">
+        <label for="session-length">Session Length:</label>
+        <input type="number" id="session-length" min="1" max="60" value="25" class="form-control" style="width: 80px; display: inline-block;">
+      </div>
+      <div class="col">
+        <label for="break-length">Break Length:</label>
+        <input type="number" id="break-length" min="1" max="30" value="5" class="form-control" style="width: 80px; display: inline-block;">
+      </div>
     </div>
 
-    <!--Break Timer-->
-    <div id="break-timer" class="pomodoroTimer">
-      <p id="b_minutes">05</p>
-      <p class="semicolon">:</p>
-      <p id="b_seconds">00</p>
+    <!--Timer Display-->
+    <div id="timer-display" class="pomodoroTimer mb-3" style="font-size:2.5rem;">
+      <span id="timer-label">Session</span>
+      <span id="minutes">25</span>:<span id="seconds">00</span>
     </div>
 
-    <button id="start" class="btnz">Start</button>
-    <button id="stop" class="btnz">Pause</button>
-    <button id="reset" class="btnz">Reset</button>
+    <div>
+      <button id="start" class="btnz">Start</button>
+      <button id="pause" class="btnz">Pause</button>
+      <button id="reset" class="btnz">Reset</button>
+    </div>
   </div>
 
   <!--Already cite the source from the internet -->
@@ -68,4 +72,85 @@
 <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 <script src="{{ url_for('static', filename='js/pomodoroTimer.js') }}"></script>
 <script src="{{ url_for('static', filename='js/script_music.js') }}"></script>
+
+<script>
+let sessionInput = document.getElementById('session-length');
+let breakInput = document.getElementById('break-length');
+let minutesDisplay = document.getElementById('minutes');
+let secondsDisplay = document.getElementById('seconds');
+let timerLabel = document.getElementById('timer-label');
+let startBtn = document.getElementById('start');
+let pauseBtn = document.getElementById('pause');
+let resetBtn = document.getElementById('reset');
+
+let timer = null;
+let isSession = true;
+let timeLeft = parseInt(sessionInput.value) * 60;
+
+function updateDisplay() {
+  let min = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+  let sec = String(timeLeft % 60).padStart(2, '0');
+  minutesDisplay.textContent = min;
+  secondsDisplay.textContent = sec;
+  timerLabel.textContent = isSession ? 'Session' : 'Break';
+}
+
+function startTimer() {
+  if (timer) return;
+  timer = setInterval(() => {
+    if (timeLeft > 0) {
+      timeLeft--;
+      updateDisplay();
+    } else {
+      isSession = !isSession;
+      timeLeft = (isSession ? parseInt(sessionInput.value) : parseInt(breakInput.value)) * 60;
+      updateDisplay();
+    }
+  }, 1000);
+}
+
+function pauseTimer() {
+  clearInterval(timer);
+  timer = null;
+}
+
+function resetTimer() {
+  pauseTimer();
+  isSession = true;
+  timeLeft = parseInt(sessionInput.value) * 60;
+  updateDisplay();
+}
+
+startBtn.onclick = function() {
+  // If timer is not running, set timeLeft to current input values
+  if (!timer) {
+    if (isSession) {
+      timeLeft = parseInt(sessionInput.value) * 60;
+    } else {
+      timeLeft = parseInt(breakInput.value) * 60;
+    }
+    updateDisplay();
+  }
+  startTimer();
+};
+pauseBtn.onclick = pauseTimer;
+resetBtn.onclick = resetTimer;
+
+// Update timer if user changes input before starting
+sessionInput.onchange = function() {
+  if (isSession && !timer) {
+    timeLeft = parseInt(sessionInput.value) * 60;
+    updateDisplay();
+  }
+};
+breakInput.onchange = function() {
+  if (!isSession && !timer) {
+    timeLeft = parseInt(breakInput.value) * 60;
+    updateDisplay();
+  }
+};
+
+updateDisplay();
+</script>
+
 {% endblock %}
