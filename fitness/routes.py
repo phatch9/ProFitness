@@ -56,7 +56,7 @@ def logout():
 def user():
     total, monthly_calories, perk, achivement = calculate_workout()
     return render_template('user_dashboard.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                           achivement=achivement)
+                            achivement=achivement)
 
 
 # Route for cardio workout
@@ -72,7 +72,7 @@ def cardio():
         return redirect(url_for('cardio'))
     total, monthly_calories, perk, achivement = calculate_workout()
     return render_template('cardio.html', form=form, total=total, monthly_calories=monthly_calories, perk=perk,
-                           achivement=achivement)
+                            achivement=achivement)
 
 
 # Route for strength workout
@@ -81,7 +81,7 @@ def cardio():
 def strength():
     total, monthly_calories, perk, achivement = calculate_workout()
     return render_template('strength.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                           achivement=achivement)
+                            achivement=achivement)
 
 
 # Route for clothes shopping
@@ -90,7 +90,7 @@ def strength():
 def clothes():
     total, monthly_calories, perk, achivement = calculate_workout()
     return render_template('clothes.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                           achivement=achivement)
+                            achivement=achivement)
 
 
 # Route for equipment shopping
@@ -99,7 +99,7 @@ def clothes():
 def gift():
     total, monthly_calories, perk, achivement = calculate_workout()
     return render_template('equipment.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                           achivement=achivement)
+                            achivement=achivement)
 
 
 # Route for supplement shopping
@@ -107,8 +107,7 @@ def gift():
 @login_required
 def supplement():
     total, monthly_calories, perk, achivement = calculate_workout()
-    return render_template('supplement.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                           achivement=achivement)
+    return render_template('supplement.html', total=total, monthly_calories=monthly_calories, perk=perk, achivement=achivement)
 
 
 # Sign up function for user with fields

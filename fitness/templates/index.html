@@ -9,62 +9,67 @@
 
 {% if not current_user.is_authenticated %}
 <div class="home__unauthenticated">
-    <div class="home__intro">
-    <img src="../static/img/fitpal" alt="ProFitness logo" class="home__img" />
+  <div class="home__intro">
+    <img src="{{ url_for('static', filename='img/fitpal') }}" alt="ProFitness logo" class="home__img" />
     <div class="home__text">
-        <h1 class="home__brand">ProFitness</h1>
-        <p class="home__tagline">First Work-Out Metaverse<br>Learn to get healthier!</p>
-        <ul class="home__feature-list">
-        <li class="home__list">Dashboard</li>
-        <li class="home__list">Cardio Workout Suggestions</li>
-        <li class="home__list">Anaerobic Workout Suggestions</li>
-        <li class="home__list">To Do List</li>
-        <li class="home__list">Track Workout Records</li>
-        <li class="home__list">Workout Timer & Music</li>
-        </ul>
-        <div class="home__buttons">
-        <a href="/signup" class="button">Workout Now</a>
-        </div>
-    </div>
-    </div>
+      <h1 class="home__brand">ProFitness</h1>
+      <p class="home__tagline">The First Fitness Platform<br>Ready to get fit and healthier!</p>
 
-    <h2 class="home__features-heading">Our Features</h2>
-    <div class="home__features-gallery">
-    <img src="../static/img/home_flashc.jfif" alt="Flashcard" class="home__imgz" />
-    <img src="../static/img/Shareflashcard.jfif" alt="Share Flashcard" class="home__imgz" />
-    <img src="../static/img/UploadNotes.jfif" alt="Upload Notes" class="home__imgz" />
-    <img src="../static/img/ShareNote.jfif" alt="Share Note" class="home__imgz" />
-    <img src="../static/img/TodoList.jfif" alt="To-Do List" class="home__imgz" />
-    <img src="../static/img/PomodoroTimer.jfif" alt="Pomodoro Timer" class="home__imgz" />
-    <img src="../static/img/TrackHour.jfif" alt="Track Hours" class="home__imgz" />
+      <ul class="home__feature-list">
+        <li class="home__list">Dashboard</li>
+        <li class="home__list">Cardio Session</li>
+        <li class="home__list">Anaerobic Session</li>
+        <li class="home__list">To-Do List</li>
+        <li class="home__list">Workout Tracking</li>
+        <li class="home__list">Timer & Music</li>
+      </ul>
+
+      <div class="home__buttons">
+        <a href="{{ url_for('signup') }}" class="button">Workout Now</a>
+      </div>
     </div>
+  </div>
+
+  <h2 class="home__features-heading">Our Features</h2>
+  <div class="home__features-gallery">
+    <img src="{{ url_for('static', filename='img/home_flashc.jfif') }}" alt="Flashcard Study Tool" class="home__imgz" />
+    <img src="{{ url_for('static', filename='img/Shareflashcard.jfif') }}" alt="Share Flashcards Feature" class="home__imgz" />
+    <img src="{{ url_for('static', filename='img/UploadNotes.jfif') }}" alt="Upload Notes Interface" class="home__imgz" />
+    <img src="{{ url_for('static', filename='img/ShareNote.jfif') }}" alt="Note Sharing Feature" class="home__imgz" />
+    <img src="{{ url_for('static', filename='img/TodoList.jfif') }}" alt="To-Do List Interface" class="home__imgz" />
+    <img src="{{ url_for('static', filename='img/PomodoroTimer.jfif') }}" alt="Pomodoro Timer View" class="home__imgz" />
+    <img src="{{ url_for('static', filename='img/TrackHour.jfif') }}" alt="Workout Hours Tracking" class="home__imgz" />
+  </div>
 
 {% else %}
 <div class="home__authenticated">
-    <div class="home__data_container">
+  <div class="home__data_container">
     <h1 class="home__title">ProFitness</h1>
     <p class="home__subtitle">Welcome Back</p>
-    <ul class="home__list_container">
-        <li class="home__list"><a class="home__link" href="/user">Dashboard</a></li>
-        <li class="home__list"><a class="home__link" href="/cardio">Cardio Workout Suggestions</a></li>
-        <li class="home__list"><a class="home__link" href="/strength">Anaerobic Workout Suggestions</a></li>
-        <li class="home__list"><a class="home__link" href="/todolist">To Do List</a></li>
-        <li class="home__list"><a class="home__link" href="/admin">Workout Records</a></li>
-        <li class="home__list"><a class="home__link" href="/pomodoroTimer">Timer & Music</a></li>
-    </ul>
-    </div>
+
+    <nav aria-label="User Navigation">
+      <ul class="home__list_container">
+        <li class="home__list"><a class="home__link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+        <li class="home__list"><a class="home__link" href="{{ url_for('cardio') }}">Cardio Session</a></li>
+        <li class="home__list"><a class="home__link" href="{{ url_for('strength') }}">Anaerobic Session</a></li>
+        <li class="home__list"><a class="home__link" href="{{ url_for('todolist') }}">To-Do List</a></li>
+        <li class="home__list"><a class="home__link" href="{{ url_for('admin') }}">Workout Tracking</a></li>
+        <li class="home__list"><a class="home__link" href="{{ url_for('pomodoroTimer') }}">Timer & Music</a></li>
+      </ul>
+    </nav>
+  </div>
 </div>
 {% endif %}
 
 </section>
 
 <div class="container">
-{% with messages = get_flashed_messages(with_categories=true) %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-    {% for category, message in messages %}
+      {% for category, message in messages %}
         <div class="alert alert-{{ category }}">{{ message }}</div>
-    {% endfor %}
+      {% endfor %}
     {% endif %}
-{% endwith %}
+  {% endwith %}
 </div>
 {% endblock %}
