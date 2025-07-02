@@ -20,10 +20,10 @@
         <p class="ui big header">{{todo.id }}. {{ todo.title }}</p>
         {% if todo.complete == False %}
         <span class="ui gray label">Not Complete</span>
-        <a class="ui blue label" href="/update/{{ todo.id }}">Mark as done</a> {% else %}
-        <span class="ui green label">Done</span>
-        <a class="ui blue label" href="/update/{{ todo.id }}">Mark as not done</a> {% endif %}
-        <a class="ui red label" href="/delete/{{ todo.id }}">Delete</a>
+        <a class="ui blue label" href="/update/{{ todo.id }}">Mark as Commpleted</a> {% else %}
+        <span class="ui green label">Completed</span>
+        <a class="ui blue label" href="/update/{{ todo.id }}">Mark as Not Complete</a> {% endif %}
+        <a class="ui red label" href="/delete/{{ todo.id }}">Remove</a>
     </div>
     {% endfor %}
 </div>
