@@ -54,9 +54,9 @@ def logout():
 @app.route("/user")
 @login_required
 def user():
-    total, monthly_calories, perk, achivement = calculate_workout()
+    total, monthly_calories, perk, achievement = calculate_workout()
     return render_template('user_dashboard.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                            achivement=achivement)
+                            achievement=achievement)
 
 
 # Route for cardio workout
@@ -70,44 +70,41 @@ def cardio():
         db.session.add(user_data)
         db.session.commit()
         return redirect(url_for('cardio'))
-    total, monthly_calories, perk, achivement = calculate_workout()
+    total, monthly_calories, perk, achievement = calculate_workout()
     return render_template('cardio.html', form=form, total=total, monthly_calories=monthly_calories, perk=perk,
-                            achivement=achivement)
+                            achievement=achievement)
 
 
 # Route for strength workout
 @app.route("/strength")
 @login_required
 def strength():
-    total, monthly_calories, perk, achivement = calculate_workout()
-    return render_template('strength.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                            achivement=achivement)
+    total, monthly_calories, perk, achievement = calculate_workout()
+    return render_template('strength.html', total=total, monthly_calories=monthly_calories, perk=perk, achievement=achievement)
 
 
 # Route for clothes shopping
 @app.route("/clothes")
 @login_required
 def clothes():
-    total, monthly_calories, perk, achivement = calculate_workout()
-    return render_template('clothes.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                            achivement=achivement)
+    total, monthly_calories, perk, achievement = calculate_workout()
+    return render_template('clothes.html', total=total, monthly_calories=monthly_calories, perk=perk, achievement=achievement)
 
 
 # Route for equipment shopping
 @app.route("/equipment")
 @login_required
 def gift():
-    total, monthly_calories, perk, achivement = calculate_workout()
-    return render_template('equipment.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                            achivement=achivement)
+    total, monthly_calories, perk, achievement = calculate_workout()
+    return render_template('equipment.html', total=total, monthly_calories=monthly_calories, perk=perk, achievement=achievement)
 
 
 # Route for supplement shopping
 @app.route("/supplement")
 @login_required
 def supplement():
-    total, monthly_calories, perk, achivement = calculate_workout()
-    return render_template('supplement.html', total=total, monthly_calories=monthly_calories, perk=perk, achivement=achivement)
+    total, monthly_calories, perk, achievement = calculate_workout()
+    return render_template('supplement.html', total=total, monthly_calories=monthly_calories, perk=perk, achievement=achievement)
 
 
 # Sign up function for user with fields
@@ -147,7 +144,7 @@ def signin():
 
 @login_required
 def calculate_workout():
-    achivement_max = 1500
+    achievement_max = 1500
     get_all = UserData.query.filter_by(user_id=session['id']).all()
     total_cardio = 0
     total_strength = 0
@@ -173,12 +170,12 @@ def calculate_workout():
     monthly_calories = total_strength_m + total_cardio_m
     user = User.query.filter_by(id=session['id']).first()
     perk = user.user_perk
-    achivement = int((total / achivement_max) * 100)
-    if achivement > 100:
-        achivement = 100
+    achievement = int((total / achievement_max) * 100)
+    if achievement > 100:
+        achievement = 100
         perk += 50
     user.user_perk += perk
-    return total, monthly_calories, perk, achivement
+    return total, monthly_calories, perk, achievement
 
 @app.route('/pomodoroTimer')
 @login_required
@@ -230,4 +227,3 @@ def deletetodo(todo_id):
 @app.route("/admin")
 def workoutplan():
     return render_template("index.html")
-
