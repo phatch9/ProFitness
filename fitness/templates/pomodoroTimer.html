@@ -1,156 +1,65 @@
-{% extends "base.html" %} {% block content %}
-<title>Timer</title>
-<div class="center_div">
-  <h1>Workout Session</h1>
+{% extends "base.html" %}
+{% block content %}
+<title>Pomodoro Timer</title>
 
-  <div class="music-container" id="music-container">
+<div class="center_div" style="max-width: 700px; margin: auto; padding: 2rem;">
+  <h1 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem;">Pomodoro Workout Timer</h1>
+
+  <!-- Music Player -->
+  <div class="music-container" style="margin-bottom: 2rem; background: #f9f9f9; padding: 1rem; border-radius: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
     <div class="music-info">
-      <h4 id="title"></h4>
-      <div class="progress-container" id="progress-container">
-        <div class="progress" id="progress"></div>
+      <h4 id="title" style="text-align:center; margin-bottom: 0.5rem;">Now Playing</h4>
+      <div class="progress-container" id="progress-container" style="height: 8px; background: #ccc; border-radius: 4px; overflow: hidden;">
+        <div class="progress" id="progress" style="height: 100%; width: 0%; background: #4caf50;"></div>
       </div>
     </div>
 
-    <audio src="static/music/ukulele.mp3" id="audio"></audio>
+    <audio src="{{ url_for('static', filename='music/ukulele.mp3') }}" id="audio"></audio>
 
-    <div class="img-container">
-      <img src="static/images/ukulele.jpg" alt="music-cover" id="cover" />
+    <div class="img-container" style="text-align: center; margin: 1rem 0;">
+      <img src="{{ url_for('static', filename='images/ukulele.jpg') }}" alt="music-cover" id="cover" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" />
     </div>
-    <div class="navigation">
-      <button id="prev" class="action-btn">
-        <i class="fas fa-backward"></i>
-      </button>
-      <button id="play" class="action-btn action-btn-big">
-        <i class="fas fa-play"></i>
-      </button>
-      <button id="next" class="action-btn">
-        <i class="fas fa-forward"></i>
-      </button>
+
+    <div class="navigation" style="display: flex; justify-content: center; gap: 1rem;">
+      <button id="prev" class="action-btn" title="Previous"><i class="fas fa-backward"></i></button>
+      <button id="play" class="action-btn action-btn-big" title="Play/Pause"><i class="fas fa-play"></i></button>
+      <button id="next" class="action-btn" title="Next"><i class="fas fa-forward"></i></button>
     </div>
   </div>
 
-  <div class="pomodoroTimer_container">
-    <h2>Pomodoro Timer</h2>
-    <div class="row mb-3">
-      <!--Work Session-->
-      <div class="col">
-        <label for="session-length">Session Length:</label>
-        <input type="number" id="session-length" min="1" max="60" value="25" class="form-control" style="width: 80px; display: inline-block;">
+  <!-- Pomodoro Timer -->
+  <div class="pomodoroTimer_container" style="background: #fff; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    <h2 style="text-align: center; margin-bottom: 1rem;">Pomodoro Timer</h2>
+
+    <!-- Time Inputs -->
+    <div class="row mb-3" style="display: flex; justify-content: space-around; margin-bottom: 1.5rem;">
+      <div class="col" style="text-align: center;">
+        <label for="session-length" style="display: block;">Session Length</label>
+        <input type="number" id="session-length" min="1" max="60" value="25" style="width: 60px; padding: 0.3rem; text-align: center; border-radius: 0.5rem; border: 1px solid #ccc;">
       </div>
-      <div class="col">
-        <label for="break-length">Break Length:</label>
-        <input type="number" id="break-length" min="1" max="30" value="5" class="form-control" style="width: 80px; display: inline-block;">
+      <div class="col" style="text-align: center;">
+        <label for="break-length" style="display: block;">Break Length</label>
+        <input type="number" id="break-length" min="1" max="30" value="5" style="width: 60px; padding: 0.3rem; text-align: center; border-radius: 0.5rem; border: 1px solid #ccc;">
       </div>
     </div>
 
-    <!--Timer Display-->
-    <div id="timer-display" class="pomodoroTimer mb-3" style="font-size:2.5rem;">
+    <!-- Timer Display -->
+    <div id="timer-display" style="text-align: center; font-size: 3rem; margin-bottom: 1.5rem;">
       <span id="timer-label">Session</span>
       <span id="minutes">25</span>:<span id="seconds">00</span>
     </div>
 
-    <div>
-      <button id="start" class="btnz">Start</button>
-      <button id="pause" class="btnz">Pause</button>
-      <button id="reset" class="btnz">Reset</button>
+    <!-- Timer Buttons -->
+    <div style="display: flex; justify-content: center; gap: 1rem;">
+      <button id="start" class="btnz" style="padding: 0.5rem 1rem; background: #4caf50; color: white; border: none; border-radius: 0.5rem;">Start</button>
+      <button id="pause" class="btnz" style="padding: 0.5rem 1rem; background: #f0ad4e; color: white; border: none; border-radius: 0.5rem;">Pause</button>
+      <button id="reset" class="btnz" style="padding: 0.5rem 1rem; background: #d9534f; color: white; border: none; border-radius: 0.5rem;">Reset</button>
     </div>
   </div>
-
-  <!--Already cite the source from the internet -->
-  <!-- <div class="tenor-gif-embed squid__gif" data-postid="23490293" 
-        data-share-method="host" data-aspect-ratio="0.896875" data-width="300px">
-        <a href="https://tenor.com/view/squid-game-squid-game-ez-guard-gif-23490293">
-            Squid Game Ez GIF
-        </a>
-        from
-        <a href="https://tenor.com/search/squid+game-gifs">
-            Squid Game GIFs
-        </a>
-    </div> -->
 </div>
 
 <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 <script src="{{ url_for('static', filename='js/pomodoroTimer.js') }}"></script>
 <script src="{{ url_for('static', filename='js/script_music.js') }}"></script>
-
-<script>
-let sessionInput = document.getElementById('session-length');
-let breakInput = document.getElementById('break-length');
-let minutesDisplay = document.getElementById('minutes');
-let secondsDisplay = document.getElementById('seconds');
-let timerLabel = document.getElementById('timer-label');
-let startBtn = document.getElementById('start');
-let pauseBtn = document.getElementById('pause');
-let resetBtn = document.getElementById('reset');
-
-let timer = null;
-let isSession = true;
-let timeLeft = parseInt(sessionInput.value) * 60;
-
-function updateDisplay() {
-  let min = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-  let sec = String(timeLeft % 60).padStart(2, '0');
-  minutesDisplay.textContent = min;
-  secondsDisplay.textContent = sec;
-  timerLabel.textContent = isSession ? 'Session' : 'Break';
-}
-
-function startTimer() {
-  if (timer) return;
-  timer = setInterval(() => {
-    if (timeLeft > 0) {
-      timeLeft--;
-      updateDisplay();
-    } else {
-      isSession = !isSession;
-      timeLeft = (isSession ? parseInt(sessionInput.value) : parseInt(breakInput.value)) * 60;
-      updateDisplay();
-    }
-  }, 1000);
-}
-
-function pauseTimer() {
-  clearInterval(timer);
-  timer = null;
-}
-
-function resetTimer() {
-  pauseTimer();
-  isSession = true;
-  timeLeft = parseInt(sessionInput.value) * 60;
-  updateDisplay();
-}
-
-startBtn.onclick = function() {
-  // If timer is not running, set timeLeft to current input values
-  if (!timer) {
-    if (isSession) {
-      timeLeft = parseInt(sessionInput.value) * 60;
-    } else {
-      timeLeft = parseInt(breakInput.value) * 60;
-    }
-    updateDisplay();
-  }
-  startTimer();
-};
-pauseBtn.onclick = pauseTimer;
-resetBtn.onclick = resetTimer;
-
-// Update timer if user changes input before starting
-sessionInput.onchange = function() {
-  if (isSession && !timer) {
-    timeLeft = parseInt(sessionInput.value) * 60;
-    updateDisplay();
-  }
-};
-breakInput.onchange = function() {
-  if (!isSession && !timer) {
-    timeLeft = parseInt(breakInput.value) * 60;
-    updateDisplay();
-  }
-};
-
-updateDisplay();
-</script>
 
 {% endblock %}
