@@ -1,64 +1,100 @@
-{% extends "base.html" %}
+{%extends "base.html"%}
 
-{% block title %}
+{%block title%}
 <title>Home</title>
-{% endblock %}
+{%endblock%}
 
-{% block content %}
+<body>
+{%block content%}
+
 <section class="home__container">
+    {% if not current_user.is_authenticated %}
+    <div>
+        <div>
+            <img src="../static/img/profitness" alt="" class="home__img">
+        </div>
 
-{% if not current_user.is_authenticated %}
-<div class="home__unauthenticated">
-<div class="home__intro">
-<img src="{{ url_for('static', filename='img/fitpal') }}" alt="ProFitness logo" class="home__img" /> 
-<div class="home__text">
-    <h1 class="home__brand">ProFitness</h1>
-    <p class="home__tagline">The First Fitness Platform<br>Ready to get fit and healthier!</p>
-
-    <ul class="home__feature-list">
-    <li class="home__list">Dashboard</li>
-    <li class="home__list">Cardio Session</li>
-    <li class="home__list">Anaerobic Session</li>
-    <li class="home__list">To-Do List</li>
-    <li class="home__list">Workout Tracking</li>
-    <li class="home__list">Timer & Music</li>
-    </ul>
-
-    <div class="home__buttons">
-    <a href="{{ url_for('signup') }}" class="button">Workout Now</a>
+        <div>
+            <p>ProFitness</p>
+            <p class="home__tagline">The First Fitness Platform<br>Ready to get fit and healthier!</p>
+            <p>
+                <ul>
+                    <li class="home__list"> Dashboard</li>
+                    <li class="home__list"> Cardio Session</li>
+                    <li class="home__list"> Anaerobic Session</li>
+                    <li class="home__list"> To Do List</li>
+                    <li class="home__list"> Workout Tracking</li>
+                    <li class="home__list"> Timer &  Music</li>
+                </ul>
+            </p>
+            <div class="home__buttons">
+                <a href="/signup" class="button">Workout Now</a>
+            </div>
+        </div>
     </div>
-</div>
-</div>
 
-{% else %}
-<div class="home__authenticated">
-<div class="home__data_container">
-<h1 class="home__title">ProFitness</h1>
-<p class="home__subtitle">Welcome Back</p>
+    <h2>Our Features</h2>
+    <div class="home__img_feature">
+        <img src="../static/img/home_flashc.jfif" alt="" class="home__imgz">
+        <img src="../static/img/Shareflashcard.jfif" alt="" class="home__imgz">
+        <img src="../static/img/UploadNotes.jfif" alt="" class="home__imgz">
+        <img src="../static/img/ShareNote.jfif" alt="" class="home__imgz">
+        <img src="../static/img/TodoList.jfif" alt="" class="home__imgz">
+        <img src="../static/img/PomodoroTimer.jfif" alt="" class="home__imgz">
+        <img src="../static/img/TrackHour.jfif" alt="" class="home__imgz">
+    </div>
+    {% else %}
+    <div class="home__img_cover">
+        <div class="home__data_container">
+            <p class="home__title">ProFitness</p>
+            <p class="home__subtitle">Welcome Back<br></p>
+            <p class="home__list_container">
+                <ul>
+                    <li class="home__list">
+                        <a class="home__link" href="/user">Dashboard</a>
+                    </li>
+                    <li class="home__list">
+                        <a class="home__link" href="/cardio">Cardio Workout Session</a>
+                    </li>
+                    <li class="home__list">
+                        <a class="home__link" href="/strength">Anaerobic Workout Session</a>
+                    </li>
+                    <li class="home__list">
+                        <a class="home__link" href="/todolist">To Do List</a>
+                    </li>
+                    <li class="home__list">
+                        <a class="home__link" href="/admin">Workout Tracking</a>
+                    </li>
+                    <li class="home__list">
+                        <a class="home__link" href="/pomodoroTimer">Timer & Music</a>
+                    </li>
+                </ul>
+            </p>
+        </div>
+    </div>
+        
 
-<nav aria-label="User Navigation">
-    <ul class="home__list_container">
-    <li class="home__list"><a class="home__link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
-    <li class="home__list"><a class="home__link" href="{{ url_for('cardio') }}">Cardio Session</a></li>
-    <li class="home__list"><a class="home__link" href="{{ url_for('strength') }}">Anaerobic Session</a></li>
-    <li class="home__list"><a class="home__link" href="{{ url_for('todolist') }}">To-Do List</a></li>
-    <li class="home__list"><a class="home__link" href="{{ url_for('admin') }}">Workout Tracking</a></li>
-    <li class="home__list"><a class="home__link" href="{{ url_for('pomodoroTimer') }}">Timer & Music</a></li>
-    </ul>
-</nav>
-</div>
-</div>
-{% endif %}
-
+    {% endif %}
 </section>
 
 <div class="container">
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-    {% for category, message in messages %}
-    <div class="alert alert-{{ category }}">{{ message }}</div>
-    {% endfor %}
-{% endif %}
-{% endwith %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    
 </div>
-{% endblock %}
+
+
+
+
+{%endblock%}
+</body>
+
+</html>

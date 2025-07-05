@@ -116,11 +116,11 @@
 
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="/cardio"
-                  >Cardio Session</a
-                >
+                  >Cardio Session</a>
+
                 <a class="dropdown-item" href="/strength"
-                  >Anaerobic Session</a
-                >
+                  >Anaerobic Session</a>
+                  
                 <a class="dropdown-item" href="/todolist">To Do List</a>
                 <a class="dropdown-item" href="/admin"
                   >Workout Tracking</a
@@ -149,7 +149,7 @@
     <!-- Page Header -->
     <header
       class="masthead"
-      style="background-image: url('{{ url_for('static', filename='img/fitness.jpg') }}"
+      data-bg-image="{{ url_for('static', filename='img/fitness.jpg') }}"
     >
       <div class="overlay"></div>
       <div class="container">
@@ -216,5 +216,13 @@
     <script
       href="{{ url_for('static', filename='js/scripts_music.js') }}"
     ></script>
+    <script>
+      // Set background image from data attribute
+      var header = document.querySelector('.masthead[data-bg-image]');
+      if (header) {
+        var bgImage = header.getAttribute('data-bg-image');
+        header.style.backgroundImage = "url('" + bgImage + "')";
+      }
+    </script>
   </body>
 </html>

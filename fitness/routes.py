@@ -56,7 +56,7 @@ def logout():
 def user():
     total, monthly_calories, perk, achievement = calculate_workout()
     return render_template('user_dashboard.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                            achievement=achievement)
+                           achievement=achievement)
 
 
 # Route for cardio workout
@@ -72,7 +72,7 @@ def cardio():
         return redirect(url_for('cardio'))
     total, monthly_calories, perk, achievement = calculate_workout()
     return render_template('cardio.html', form=form, total=total, monthly_calories=monthly_calories, perk=perk,
-                            achievement=achievement)
+                           achievement=achievement)
 
 
 # Route for strength workout
@@ -80,7 +80,8 @@ def cardio():
 @login_required
 def strength():
     total, monthly_calories, perk, achievement = calculate_workout()
-    return render_template('strength.html', total=total, monthly_calories=monthly_calories, perk=perk, achievement=achievement)
+    return render_template('strength.html', total=total, monthly_calories=monthly_calories, perk=perk,
+                           achievement=achievement)
 
 
 # Route for clothes shopping
@@ -88,7 +89,8 @@ def strength():
 @login_required
 def clothes():
     total, monthly_calories, perk, achievement = calculate_workout()
-    return render_template('clothes.html', total=total, monthly_calories=monthly_calories, perk=perk, achievement=achievement)
+    return render_template('clothes.html', total=total, monthly_calories=monthly_calories, perk=perk,
+                           achievement=achievement)
 
 
 # Route for equipment shopping
@@ -96,7 +98,8 @@ def clothes():
 @login_required
 def gift():
     total, monthly_calories, perk, achievement = calculate_workout()
-    return render_template('equipment.html', total=total, monthly_calories=monthly_calories, perk=perk, achievement=achievement)
+    return render_template('equipment.html', total=total, monthly_calories=monthly_calories, perk=perk,
+                           achievement=achievement)
 
 
 # Route for supplement shopping
@@ -104,7 +107,8 @@ def gift():
 @login_required
 def supplement():
     total, monthly_calories, perk, achievement = calculate_workout()
-    return render_template('supplement.html', total=total, monthly_calories=monthly_calories, perk=perk, achievement=achievement)
+    return render_template('supplement.html', total=total, monthly_calories=monthly_calories, perk=perk,
+                           achievement=achievement)
 
 
 # Sign up function for user with fields
@@ -227,3 +231,4 @@ def deletetodo(todo_id):
 @app.route("/admin")
 def workoutplan():
     return render_template("index.html")
+

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
+<!-- eslint-disable -->
 {% block content %}
-<body>
 <div class="container-fluid">
 
 <!-- Page Heading -->
@@ -57,7 +57,7 @@
                             <div class="col">
                                 <div class="progress progress-sm mr-2">
                                     <div class="progress-bar bg-info" role="progressbar"
-                                        style="width: {{ achivement }}%" aria-valuenow="{{  achivement  }}" aria-valuemin="0"
+                                        data-achievement="{{ achievement }}" aria-valuenow="{{ achievement }}" aria-valuemin="0"
                                         aria-valuemax="100"></div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
         </div>
     </div>
 </div>
-</div>
+
 <div class="row">
     <!-- Area Chart -->
     <div class="col-xl-8 col-lg-7">
@@ -98,6 +98,44 @@
                 <div class="chart-area">
                         <canvas id="myAreaChart" ></canvas>
                         <script>
+                        // @ts-nocheck
+                        /* eslint-disable */
+                        /* jshint ignore:start */
+                        // Template variables
+                        var monthlyCalories = {{ monthly_calories|default(0) }};
+                        var cardioCalories = {{ cardio_calories|default(0) }};
+                        var strengthCalories = {{ strength_calories|default(0) }};
+                        var restCalories = {{ rest_calories|default(0) }};
+                        
+                        // Set progress bar width
+                        var progressBar = document.querySelector('.progress-bar[data-achievement]');
+                        if (progressBar) {
+                            var achievement = progressBar.getAttribute('data-achievement');
+                            progressBar.style.width = achievement + '%';
+                        }
+                        
+                        // Number formatting function
+                        function number_format(number, decimals, dec_point, thousands_sep) {
+                            number = (number + '').replace(',', '').replace(' ', '');
+                            var n = !isFinite(+number) ? 0 : +number,
+                                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                                s = '',
+                                toFixedFix = function(n, prec) {
+                                    var k = Math.pow(10, prec);
+                                    return '' + Math.round(n * k) / k;
+                                };
+                            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+                            if ((sep.length > 0) && (s[0].length > 3)) {
+                                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+                            }
+                            if ((s.length > 1) && (dec.length > 0) && (s[1].length < prec)) {
+                                s[1] += new Array(prec - s[1].length + 1).join('0');
+                            }
+                            return s.join(dec);
+                        }
+
                         // Area Chart Example
                         var ctx = document.getElementById("myAreaChart");
                         var myLineChart = new Chart(ctx, {
@@ -117,8 +155,8 @@
                                 pointHoverBorderColor: "rgba(78, 115, 223, 1)",
                                 pointHitRadius: 10,
                                 pointBorderWidth: 2,
-                                data: [0, 0, 0, {{ monthly_calories }}, 0, 0, 0, 0, 0, 0, 0, 0],
-                            }],
+                                data: [0, 0, 0, monthlyCalories, 0, 0, 0, 0, 0, 0, 0, 0]
+                            }]
                             },
                             options: {
                             maintainAspectRatio: false,
@@ -159,7 +197,7 @@
                                     borderDash: [2],
                                     zeroLineBorderDash: [2]
                                 }
-                                }],
+                                }]
                             },
                             legend: {
                                 display: false
@@ -188,6 +226,7 @@
                             }
                         });
 
+                        /* jshint ignore:end */
                         </script>
                 </div>
             </div>
@@ -218,10 +257,41 @@
                         <i class="fas fa-circle text-info"></i> Rest
                     </span>
                 </div>
+                <script>
+                // Pie Chart Example
+                var ctx = document.getElementById("myPieChart");
+                var myPieChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ["Cardio", "Strength", "Rest"],
+                        datasets: [{
+                            data: [cardioCalories, strengthCalories, restCalories],
+                            backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                            hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                            hoverBorderColor: "rgba(234, 236, 244, 1)",
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        tooltips: {
+                            backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                            borderColor: '#dddfeb',
+                            borderWidth: 1,
+                            xPadding: 15,
+                            yPadding: 15,
+                            displayColors: false,
+                            caretPadding: 10,
+                        },
+                        legend: {
+                            display: false
+                        },
+                        cutoutPercentage: 80,
+                    },
+                });
+                </script>
             </div>
         </div>
     </div>
 </div>
-{%endblock%}
-</body>
-</html>
+{% endblock %}
