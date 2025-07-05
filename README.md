@@ -1,5 +1,5 @@
 
-[GymPlus]
+[ProFitness]
 
 Using Vanilla Javascript, Flask, SQLAlchemy(SQLite)
 
@@ -7,19 +7,19 @@ Using Vanilla Javascript, Flask, SQLAlchemy(SQLite)
 Use Python 3.8-3.10
 To run the flask application, run these commands below
 ```
-cd FitPal
+cd ProFitness
 
 pip3 install -r requirements.txt
 
-python3 .py
+python3 app.py
 ```
 after that, open the url:
-http://localhost:5001/
+http://localhost:8080/
 
 Test the app with Demo ID/Password
 ```txt
-Email: account@gmail.com
-Password: 0000000000
+Email: test123@gmail.com
+Password: 1111111111
 ```
 
 [Pip install throws error: externally-managed-environment]
@@ -55,9 +55,6 @@ deactivate # or exit the shell
 ### Note:
 You can chose any folder location and name that you want for the venv. ~/.venv is typical.
 Your project code can be in any directory.
-
-### Open Source
-We encourage anyone who is interested in this project, please fork the repo and work on issues opened and open pull request. I will review and merge it.
 
 
 ### Project Structure
