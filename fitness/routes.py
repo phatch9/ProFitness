@@ -56,7 +56,12 @@ def logout():
 def user():
     total, monthly_calories, perk, achievement = calculate_workout()
     return render_template('user_dashboard.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                           achievement=achievement)
+                            achievement=achievement)
+
+#Route to contact page 
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
 
 
 # Route for cardio workout
@@ -72,7 +77,7 @@ def cardio():
         return redirect(url_for('cardio'))
     total, monthly_calories, perk, achievement = calculate_workout()
     return render_template('cardio.html', form=form, total=total, monthly_calories=monthly_calories, perk=perk,
-                           achievement=achievement)
+                            achievement=achievement)
 
 
 # Route for strength workout
@@ -80,8 +85,7 @@ def cardio():
 @login_required
 def strength():
     total, monthly_calories, perk, achievement = calculate_workout()
-    return render_template('strength.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                           achievement=achievement)
+    return render_template('strength.html', total=total, monthly_calories=monthly_calories, perk=perk, achievement=achievement)
 
 
 # Route for clothes shopping
@@ -89,8 +93,7 @@ def strength():
 @login_required
 def clothes():
     total, monthly_calories, perk, achievement = calculate_workout()
-    return render_template('clothes.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                           achievement=achievement)
+    return render_template('clothes.html', total=total, monthly_calories=monthly_calories, perk=perk, achievement=achievement)
 
 
 # Route for equipment shopping
@@ -108,7 +111,7 @@ def gift():
 def supplement():
     total, monthly_calories, perk, achievement = calculate_workout()
     return render_template('supplement.html', total=total, monthly_calories=monthly_calories, perk=perk,
-                           achievement=achievement)
+                        achievement=achievement)
 
 
 # Sign up function for user with fields
