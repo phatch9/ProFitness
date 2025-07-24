@@ -2,81 +2,43 @@
 <html lang="en-US">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    
+    <!-- Bootstrap 4.3.1 CSS -->
     <link
       rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <!-- Bootstrap core CSS -->
-    <link
-      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
-      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
     />
 
-    <!-- Custom fonts for this template -->
-    <link
-      href="{{ url_for('static', filename='css/all.min.css') }}"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <!-- Custom Fonts -->
+    <link href="{{ url_for('static', filename='css/all.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" />
 
-    <!-- Custom styles for this template -->
-    <link
-      href="{{ url_for('static', filename='css/clean-blog.min.css') }}"
-      rel="stylesheet"
-    />
-    <link
-      href="{{ url_for('static', filename='css/styles.css') }}"
-      rel="stylesheet"
-    />
-    <link
-      href="{{ url_for('static', filename='css/styles1.css') }}"
-      rel="stylesheet"
-    />
+    <!-- Custom Styles -->
+    <link href="{{ url_for('static', filename='css/clean-blog.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/styles1.css') }}" rel="stylesheet" />
 
-    <!-- added favicon -->
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="{{ url_for('static', filename='img/favicon.ico') }}"
-    />
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}" />
 
-    <!-- Imported CSS-->
-
-    <!--End of imported CSS-->
-
-    {%block title%} {%endblock%}
+    {% if title %}
+      <title>{{ title }} - ProFitness</title>
+    {% else %}
+      <title>ProFitness</title>
+    {% endif %}
   </head>
 
   <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="/" style="font-size: 20px">ProFitness</a>
+        <a class="navbar-brand" href="/">ProFitness</a>
         <button
-          class="navbar-toggler navbar-toggler-right"
+          class="navbar-toggler"
           type="button"
           data-toggle="collapse"
           data-target="#navbarResponsive"
@@ -84,76 +46,62 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          Menu
-          <i class="fas fa-bars"></i>
+          <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="/">Home</a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link" href="/contact">Contact</a>
-            </li>
-            
-            {%if current_user.is_authenticated%}
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Logout</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Features
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/user"
-                  >{{session['fname']}}'s Dashboard
+
+            {% if current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('contact') }}">Log Out</a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Features
                 </a>
-
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/cardio"
-                  >Cardio Session</a>
-
-                <a class="dropdown-item" href="/strength"
-                  >Anaerobic Session</a>
-                  
-                <a class="dropdown-item" href="/todolist">To Do List</a>
-                <a class="dropdown-item" href="/admin"
-                  >Workout Tracking</a
-                >
-                <a class="dropdown-item" href="/pomodoroTimer"
-                  >Timer & Music</a
-                >
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/delete">Delete Account</a>
-              </div>
-            </li>
-            {%else%}
-            <li class="nav-item active">
-              <a class="nav-link" href="/signup">Register</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/signin">Login</a>
-            </li>
-
-            {%endif%}
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="/user">{{ session['fname'] }}'s Dashboard</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/renderFlashCard">Workout Plan</a>
+                  <a class="dropdown-item" href="/shareFlash">Workout History</a>
+                  <a class="dropdown-item" href="/cardio">Cardio Session</a>
+                  <a class="dropdown-item" href="/strength">Anaerobic Session</a>
+                  <a class="dropdown-item" href="/todolist">To Do List</a>
+                  <a class="dropdown-item" href="/admin">Workout Tracking</a>
+                  <a class="dropdown-item" href="/pomodoroTimer">Pomodoro Timer</a>
+                  <a class="dropdown-item" href="/trackHours">Track Hours</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/delete">Delete Account</a>
+                </div>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/signup">Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/signin">Login</a>
+              </li>
+            {% endif %}
           </ul>
         </div>
       </div>
     </nav>
 
     <!-- Page Header -->
-    <header
-      class="masthead"
-      data-bg-image="{{ url_for('static', filename='img/fitness.jpg') }}"
-    >
+    <header class="masthead" data-bg-image="{{ url_for('static', filename='img/fitness.jpg') }}">
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
@@ -166,20 +114,29 @@
         </div>
       </div>
     </header>
+
+    <!-- Flash notifi messages -->
+    <div class="container mt-3">
+      {% for message in get_flashed_messages() %}
+        <div class="alert alert-danger">{{ message }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- Page Content -->
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          {%block content%}{%endblock%}
+          {% block content %}{% endblock %}
         </div>
       </div>
     </div>
 
     <!-- Footer -->
-    <footer>
+    <footer class="mt-5">
       <div class="container">
         <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <ul class="list-inline text-center">
+          <div class="col-lg-8 col-md-10 mx-auto text-center">
+            <ul class="list-inline">
               <li class="list-inline-item">
                 <a href="https://www.facebook.com/">
                   <span class="fa-stack fa-lg">
@@ -188,14 +145,6 @@
                   </span>
                 </a>
               </li>
-              <!-- <li class="list-inline-item">
-                <a href="https://github.com/phatch9/ProFitness">
-                  <span class="fa-stack fa-lg">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li> -->
             </ul>
             <p class="copyright text-muted">Copyright &copy; ProFitness 2023</p>
           </div>
@@ -203,27 +152,17 @@
       </div>
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script
-      href="{{ url_for('static', filename='js/jquery.min.js') }}"
-    ></script>
-    <script
-      href="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"
-    ></script>
+    <!-- JavaScript Includes -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-    <!-- Custom scripts for this template -->
-    <script
-      href="{{ url_for('static', filename='js/clean-blog.min.js') }}"
-    ></script>
-    <script href="{{ url_for('static', filename='js/scripts.js') }}"></script>
-    <script
-      href="{{ url_for('static', filename='js/scripts_music.js') }}"
-    ></script>
+    <!-- Optional Custom Scripts -->
     <script>
       // Set background image from data attribute
-      var header = document.querySelector('.masthead[data-bg-image]');
+      const header = document.querySelector('.masthead[data-bg-image]');
       if (header) {
-        var bgImage = header.getAttribute('data-bg-image');
+        const bgImage = header.getAttribute('data-bg-image');
         header.style.backgroundImage = "url('" + bgImage + "')";
       }
     </script>
