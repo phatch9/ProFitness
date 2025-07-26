@@ -28,12 +28,12 @@
 }
 
 .timer-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #b5bcdd 0%, #a099a8 100%);
   border-radius: 20px;
   padding: 3rem 2rem;
   box-shadow: 0 20px 40px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
-  color: white;
+  color: rgb(15, 14, 14);
   text-align: center;
 }
 
@@ -77,6 +77,13 @@
 .timer-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* FIXED: Added disabled state styling for UX */
+.timer-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .btn-start {
@@ -203,6 +210,8 @@
   border-radius: 3px;
   overflow: hidden;
   margin: 0.5rem 0;
+  /* FIXED: Added cursor pointer for better UX */
+  cursor: pointer;
 }
 
 .music-progress-bar {
@@ -244,6 +253,11 @@
   font-size: 1.5rem;
 }
 
+/* FIXED: Added playing state styling for music button */
+.music-btn.playing {
+  background: linear-gradient(45deg, #4CAF50, #45a049);
+}
+
 @media (max-width: 768px) {
   .pomodoro-header h1 {
     font-size: 2rem;
@@ -277,8 +291,9 @@
       <span id="minutes">25</span>:<span id="seconds">00</span>
     </div>
     <div class="timer-controls">
+      <!-- FIXED: Added proper button states and disabled attribute -->
       <button id="start" class="timer-btn btn-start">Start</button>
-      <button id="pause" class="timer-btn btn-pause">Pause</button>
+      <button id="pause" class="timer-btn btn-pause" disabled>Pause</button>
       <button id="reset" class="timer-btn btn-reset">Reset</button>
     </div>
   </div>
@@ -301,7 +316,8 @@
   <!-- Music Player Card -->
   <div class="music-card">
     <div class="music-header">
-      <div class="music-title">Workout Music</div>
+      <!-- FIXED: Added proper ID for music title -->
+      <div class="music-title" id="music-title">Workout Music</div>
       <div class="music-subtitle">Stay motivated with our tunes</div>
     </div>
     
@@ -309,7 +325,8 @@
       <img src="{{ url_for('static', filename='img/home-workout.jpg') }}" alt="music-cover" id="cover" class="music-cover">
       
       <div class="music-controls">
-        <div class="music-progress">
+        <!-- FIXED: Added proper ID for progress container -->
+        <div class="music-progress" id="progress-container">
           <div class="music-progress-bar" id="progress"></div>
         </div>
         
@@ -331,11 +348,9 @@
   </div>
 </div>
 
-<script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-<script src="{{ url_for('static', filename='js/pomodoroTimer.js') }}"></script>
-<script src="{{ url_for('static', filename='js/script_music.js') }}"></script>
-
 <script>
+// FIXED: Removed external JS dependency and created self-contained functionality
+// Timer functionality
 let sessionInput = document.getElementById('session-length');
 let breakInput = document.getElementById('break-length');
 let minutesDisplay = document.getElementById('minutes');
@@ -348,6 +363,8 @@ let resetBtn = document.getElementById('reset');
 let timer = null;
 let isSession = true;
 let timeLeft = parseInt(sessionInput.value) * 60;
+// Added isRunning state for button management
+let isRunning = false;
 
 function updateDisplay() {
   let min = String(Math.floor(timeLeft / 60)).padStart(2, '0');
@@ -359,14 +376,27 @@ function updateDisplay() {
 
 function startTimer() {
   if (timer) return;
+  
+  // FIXED: Added proper button state management
+  isRunning = true;
+  startBtn.disabled = true;
+  pauseBtn.disabled = false;
+  startBtn.textContent = 'Running...';
+  
   timer = setInterval(() => {
     if (timeLeft > 0) {
       timeLeft--;
       updateDisplay();
     } else {
+      // FIXED: Added automatic session switching
       isSession = !isSession;
       timeLeft = (isSession ? parseInt(sessionInput.value) : parseInt(breakInput.value)) * 60;
       updateDisplay();
+      
+      // FIXED: Added notification sound when session completes
+      if (typeof audio !== 'undefined' && audio.readyState >= 2) {
+        audio.play().catch(e => console.log('Audio play failed:', e));
+      }
     }
   }, 1000);
 }
@@ -374,45 +404,145 @@ function startTimer() {
 function pauseTimer() {
   clearInterval(timer);
   timer = null;
+  // FIXED: Added proper state reset
+  isRunning = false;
+  startBtn.disabled = false;
+  pauseBtn.disabled = true;
+  startBtn.textContent = 'Resume';
 }
 
 function resetTimer() {
-  pauseTimer();
+  clearInterval(timer);
+  timer = null;
+  // FIXED: Added complete state reset
+  isRunning = false;
   isSession = true;
   timeLeft = parseInt(sessionInput.value) * 60;
   updateDisplay();
+  
+  startBtn.disabled = false;
+  pauseBtn.disabled = true;
+  startBtn.textContent = 'Start';
 }
 
-startBtn.onclick = function() {
-  if (!timer) {
-    if (isSession) {
-      timeLeft = parseInt(sessionInput.value) * 60;
-    } else {
-      timeLeft = parseInt(breakInput.value) * 60;
-    }
+// Completed music player functionality -- Fixed
+// Music functionality
+let audio = document.getElementById('audio');
+let playBtn = document.getElementById('play');
+let prevBtn = document.getElementById('prev');
+let nextBtn = document.getElementById('next');
+let progress = document.getElementById('progress');
+let progressContainer = document.getElementById('progress-container');
+let cover = document.getElementById('cover');
+let musicTitle = document.getElementById('music-title');
+
+let isPlaying = false;
+let currentSongIndex = 0;
+
+// Added several songs support - Fixed
+const songs = [
+  { title: 'Summer Vibes', src: '{{ url_for("static", filename="music/summer.mp3") }}', cover: '{{ url_for("static", filename="img/home-workout.jpg") }}' },
+  { title: 'Hey There', src: '{{ url_for("static", filename="music/hey.mp3") }}', cover: '{{ url_for("static", filename="img/home-workout.jpg") }}' },
+  { title: 'Ukulele', src: '{{ url_for("static", filename="music/ukulele.mp3") }}', cover: '{{ url_for("static", filename="img/home-workout.jpg") }}' }
+];
+
+function loadSong(index) {
+  const song = songs[index];
+  audio.src = song.src;
+  cover.src = song.cover;
+  musicTitle.textContent = song.title;
+}
+
+function playSong() {
+  isPlaying = true;
+  // Added visual feedback for playing state -- Fixed
+  playBtn.classList.add('playing');
+  playBtn.querySelector('i').classList.remove('fa-play');
+  playBtn.querySelector('i').classList.add('fa-pause');
+  audio.play();
+}
+
+function pauseSong() {
+  isPlaying = false;
+
+  // Added visual feedback for paused state -- fixed
+  playBtn.classList.remove('playing');
+  playBtn.querySelector('i').classList.add('fa-play');
+  playBtn.querySelector('i').classList.remove('fa-pause');
+  audio.pause();
+}
+
+function nextSong() {
+  currentSongIndex = (currentSongIndex + 1) % songs.length;
+  loadSong(currentSongIndex);
+  if (isPlaying) {
+    playSong();
+  }
+}
+
+function prevSong() {
+  currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+  loadSong(currentSongIndex);
+  if (isPlaying) {
+    playSong();
+  }
+}
+
+// FIXED: Added progress bar functionality
+function updateProgress() {
+  if (audio.duration) {
+    const progressPercent = (audio.currentTime / audio.duration) * 100;
+    progress.style.width = `${progressPercent}%`;
+  }
+}
+
+function setProgress(e) {
+  const width = this.clientWidth;
+  const clickX = e.offsetX;
+  const duration = audio.duration;
+  audio.currentTime = (clickX / width) * duration;
+}
+
+// FIXED: Added event listeners instead of inline onclick
+// Event listeners
+startBtn.addEventListener('click', startTimer);
+pauseBtn.addEventListener('click', pauseTimer);
+resetBtn.addEventListener('click', resetTimer);
+
+playBtn.addEventListener('click', () => {
+  if (isPlaying) {
+    pauseSong();
+  } else {
+    playSong();
+  }
+});
+
+prevBtn.addEventListener('click', prevSong);
+nextBtn.addEventListener('click', nextSong);
+
+audio.addEventListener('timeupdate', updateProgress);
+progressContainer.addEventListener('click', setProgress);
+audio.addEventListener('ended', nextSong);
+
+// FIXED: Added proper settings change handlers
+sessionInput.addEventListener('change', function() {
+  if (!isRunning) {
+    timeLeft = parseInt(this.value) * 60;
     updateDisplay();
   }
-  startTimer();
-};
+});
 
-pauseBtn.onclick = pauseTimer;
-resetBtn.onclick = resetTimer;
-
-sessionInput.onchange = function() {
-  if (isSession && !timer) {
-    timeLeft = parseInt(sessionInput.value) * 60;
+breakInput.addEventListener('change', function() {
+  if (!isRunning && !isSession) {
+    timeLeft = parseInt(this.value) * 60;
     updateDisplay();
   }
-};
+});
 
-breakInput.onchange = function() {
-  if (!isSession && !timer) {
-    timeLeft = parseInt(breakInput.value) * 60;
-    updateDisplay();
-  }
-};
+// FIXED: Added proper initialization
 
 updateDisplay();
+loadSong(currentSongIndex);
 </script>
 
 {% endblock %}

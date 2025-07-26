@@ -1,191 +1,418 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-<title>Registration</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-<style>
-	body {
-		color: #fff;
-		background: #63738a;
-		font-family: 'Roboto', sans-serif;
-	}
-    .form-control{
-		height: 40px;
-		box-shadow: none;
-		color: #969fa4;
-	}
-	.form-control:focus{
-		border-color: #5cb85c;
-	}
-    .form-control, .btn{        
-        border-radius: 3px;
-    }
-	.signup-form{
-		width: 400px;
-		margin: 0 auto;
-		padding: 30px 0;
-	}
-	.signup-form h2{
-		color: #636363;
-        margin: 0 0 15px;
-		position: relative;
-		text-align: center;
-    }
-	.signup-form h2:before, .signup-form h2:after{
-		content: "";
-		height: 2px;
-		width: 30%;
-		background: #d4d4d4;
-		position: absolute;
-		top: 50%;
-		z-index: 2;
-	}	
-	.signup-form h2:before{
-		left: 0;
-	}
-	.signup-form h2:after{
-		right: 0;
-	}
-    .signup-form .hint-text{
-		color: #999;
-		margin-bottom: 30px;
-		text-align: center;
-	}
-    .signup-form form{
-		color: #999;
-		border-radius: 3px;
-    	margin-bottom: 15px;
-        background: #f2f3f7;
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-        padding: 30px;
-    }
-	.signup-form .form-group{
-		margin-bottom: 20px;
-	}
-	.signup-form input[type="checkbox"]{
-		margin-top: 3px;
-	}
-	.signup-form .btn{        
-        font-size: 16px;
-        font-weight: bold;		
-		min-width: 140px;
-        outline: none !important;
-    }
-	.signup-form .row div:first-child{
-		padding-right: 10px;
-	}
-	.signup-form .row div:last-child{
-		padding-left: 10px;
-	}    	
-    .signup-form a{
-		color: #fff;
-		text-decoration: underline;
-	}
-    .signup-form a:hover{
-		text-decoration: none;
-	}
-	.signup-form form a{
-		color: #5cb85c;
-		text-decoration: none;
-	}	
-	.signup-form form a:hover{
-		text-decoration: underline;
-	}
-	.signup-color{
-		color: #5cb85c;
-	}  
-</style>
-</head>
-{% extends "base.html"%}
-{%block content%}
-<body>
+{% extends "base.html" %}
+{% block content %}
 
-<div class="signup-form">
-    <form action="/signup" method="POST">
-    	{{ form.hidden_tag() }}
-		<h2>Sign Up</h2>
-		<p class="hint-text">Create your account </p>
-        <div class="form-group">
-			{{ form.first_name.label(class="form-control-label") }}
-			{% if form.first_name.errors %}
-				{{ form.first_name(class="form-control form-control-lg is-invalid") }}
-				<div class="alert alert-danger">
-					{% for error in form.first_name.errors %}
-						<span>{{ error }}</span>
-					{% endfor %}
-				</div>
-			{% else %}
-				{{ form.first_name(class="form-control form-control-lg") }}
-			{% endif %}        		
-		</div>	
-		<div class="form-group">
-        	{{ form.last_name.label(class="form-control-label") }}
-			{% if form.last_name.errors %}
-				{{ form.last_name(class="form-control form-control-lg is-invalid") }}
-				<div class="alert alert-danger">
-					{% for error in form.last_name.errors %}
-						<span>{{ error }}</span>
-					{% endfor %}
-				</div>
-			{% else %}
-				{{ form.last_name(class="form-control form-control-lg") }}
-			{% endif %}
-        </div>
-        <div class="form-group">
-        	{{ form.email.label(class="form-control-label") }}
-				{% if form.email.errors %}
-					{{ form.email(class="form-control form-control-lg is-invalid") }}
-						<div class="alert alert-danger">
-							{% for error in form.email.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-				{% else %}
-					{{ form.email(class="form-control form-control-lg") }}
-				{% endif %}   
-        </div>
-		<div class="form-group">
-            {{ form.password.label(class="form-control-label") }}
-				{% if form.password.errors %}
-					{{ form.password(class="form-control form-control-lg is-invalid") }}
-						<div class="alert alert-danger">
-							{% for error in form.password.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-				{% else %}
-					{{ form.password(class="form-control form-control-lg") }}
-				{% endif %}       	
-        </div>
-		<div class="form-group">
-			{{ form.confirm_password.label(class="form-control-label") }}
-				{% if form.confirm_password.errors %}
-					{{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
-						<div class="alert alert-danger">
-							{% for error in form.confirm_password.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-				{% else %}
-					{{ form.confirm_password(class="form-control form-control-lg") }}
-				{% endif %}
-        </div>
-        <div class="form-group">
-			<label class="checkbox-inline"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
-		</div>
-		<div class="form-group">
-            {{ form.submit(class="btn btn-outline-info")}}
-        </div>
-    </form>
-	<div class="text-center" >Already have an account? <a href="signin" style="color:black;">Sign in</a></div>
+<style>
+.pomodoro-container {
+max-width: 800px;
+margin: 2rem auto;
+padding: 0 1rem;
+}
+
+.pomodoro-header {
+text-align: center;
+margin-bottom: 3rem;
+}
+
+.pomodoro-header h1 {
+font-size: 3rem;
+font-weight: 700;
+color: #2c3e50;
+margin-bottom: 0.5rem;
+text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.pomodoro-header p {
+font-size: 1.2rem;
+color: #7f8c8d;
+margin: 0;
+}
+
+.timer-card {
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+border-radius: 20px;
+padding: 3rem 2rem;
+box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+margin-bottom: 2rem;
+color: white;
+text-align: center;
+}
+
+.timer-display {
+font-size: 4rem;
+font-weight: 300;
+margin: 1rem 0;
+font-family: 'Courier New', monospace;
+text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.timer-label {
+font-size: 1.5rem;
+font-weight: 600;
+margin-bottom: 1rem;
+text-transform: uppercase;
+letter-spacing: 2px;
+}
+
+.timer-controls {
+display: flex;
+justify-content: center;
+gap: 1rem;
+margin-top: 2rem;
+flex-wrap: wrap;
+}
+
+.timer-btn {
+padding: 1rem 2rem;
+border: none;
+border-radius: 50px;
+font-size: 1.1rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+text-transform: uppercase;
+letter-spacing: 1px;
+min-width: 120px;
+}
+
+.timer-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.btn-start {
+background: linear-gradient(45deg, #4CAF50, #45a049);
+color: white;
+}
+
+.btn-pause {
+background: linear-gradient(45deg, #FF9800, #F57C00);
+color: white;
+}
+
+.btn-reset {
+background: linear-gradient(45deg, #f44336, #d32f2f);
+color: white;
+}
+
+.settings-card {
+background: white;
+border-radius: 15px;
+padding: 2rem;
+box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+margin-bottom: 2rem;
+}
+
+.settings-title {
+font-size: 1.5rem;
+font-weight: 600;
+color: #2c3e50;
+margin-bottom: 1.5rem;
+text-align: center;
+}
+
+.settings-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 2rem;
+margin-bottom: 1rem;
+}
+
+.setting-group {
+text-align: center;
+}
+
+.setting-group label {
+display: block;
+font-weight: 600;
+color: #34495e;
+margin-bottom: 0.5rem;
+font-size: 0.9rem;
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+.setting-group input {
+width: 80px;
+padding: 0.8rem;
+border: 2px solid #e0e0e0;
+border-radius: 10px;
+font-size: 1.2rem;
+text-align: center;
+font-weight: 600;
+color: #2c3e50;
+transition: all 0.3s ease;
+}
+
+.setting-group input:focus {
+outline: none;
+border-color: #667eea;
+box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.music-card {
+background: white;
+border-radius: 15px;
+padding: 2rem;
+box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.music-header {
+text-align: center;
+margin-bottom: 2rem;
+}
+
+.music-title {
+font-size: 1.5rem;
+font-weight: 600;
+color: #2c3e50;
+margin-bottom: 0.5rem;
+}
+
+.music-subtitle {
+color: #7f8c8d;
+font-size: 0.9rem;
+}
+
+.music-player {
+display: flex;
+align-items: center;
+gap: 2rem;
+flex-wrap: wrap;
+justify-content: center;
+}
+
+.music-cover {
+width: 120px;
+height: 120px;
+border-radius: 15px;
+object-fit: cover;
+box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.music-controls {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 1rem;
+}
+
+.music-progress {
+width: 200px;
+height: 6px;
+background: #e0e0e0;
+border-radius: 3px;
+overflow: hidden;
+margin: 0.5rem 0;
+}
+
+.music-progress-bar {
+height: 100%;
+background: linear-gradient(45deg, #667eea, #764ba2);
+width: 0%;
+transition: width 0.3s ease;
+}
+
+.music-buttons {
+display: flex;
+gap: 1rem;
+align-items: center;
+}
+
+.music-btn {
+width: 50px;
+height: 50px;
+border: none;
+border-radius: 50%;
+background: linear-gradient(45deg, #667eea, #764ba2);
+color: white;
+cursor: pointer;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.2rem;
+}
+
+.music-btn:hover {
+transform: scale(1.1);
+box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.music-btn.play {
+width: 60px;
+height: 60px;
+font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+.pomodoro-header h1 {
+	font-size: 2rem;
+}
+
+.timer-display {
+	font-size: 2.5rem;
+}
+
+.settings-grid {
+	grid-template-columns: 1fr;
+}
+
+.music-player {
+	flex-direction: column;
+}
+}
+</style>
+
+<div class="pomodoro-container">
+<!-- Header -->
+<div class="pomodoro-header">
+	<h1>Workout Timer</h1>
+	<p>Stay focused, stay fit - Set your plan and get ready</p>
 </div>
-</body>
-{%endblock%}
-</html>
+
+<!-- Timer Card -->
+<div class="timer-card">
+	<div class="timer-label" id="timer-label">Work Session</div>
+	<div class="timer-display">
+	<span id="minutes">25</span>:<span id="seconds">00</span>
+	</div>
+	<div class="timer-controls">
+	<button id="start" class="timer-btn btn-start">Start</button>
+	<button id="pause" class="timer-btn btn-pause">Pause</button>
+	<button id="reset" class="timer-btn btn-reset">Reset</button>
+	</div>
+</div>
+
+<!-- Settings Card -->
+<div class="settings-card">
+	<div class="settings-title">Timer Settings</div>
+	<div class="settings-grid">
+	<div class="setting-group">
+		<label for="session-length">Work Session (min)</label>
+		<input type="number" id="session-length" min="1" max="60" value="25">
+	</div>
+	<div class="setting-group">
+		<label for="break-length">Break Time (min)</label>
+		<input type="number" id="break-length" min="1" max="30" value="5">
+	</div>
+	</div>
+</div>
+
+<!-- Music Player Card -->
+<div class="music-card">
+	<div class="music-header">
+	<div class="music-title">Workout Music</div>
+	<div class="music-subtitle">Stay motivated with our tunes</div>
+	</div>
+	
+	<div class="music-player">
+	<img src="{{ url_for('static', filename='img/home-workout.jpg') }}" alt="music-cover" id="cover" class="music-cover">
+	
+	<div class="music-controls">
+		<div class="music-progress">
+		<div class="music-progress-bar" id="progress"></div>
+		</div>
+		
+		<div class="music-buttons">
+		<button id="prev" class="music-btn" title="Previous">
+			<i class="fas fa-backward"></i>
+		</button>
+		<button id="play" class="music-btn play" title="Play/Pause">
+			<i class="fas fa-play"></i>
+		</button>
+		<button id="next" class="music-btn" title="Next">
+			<i class="fas fa-forward"></i>
+		</button>
+		</div>
+	</div>
+	</div>
+	
+	<audio src="{{ url_for('static', filename='music/summer.mp3') }}" id="audio"></audio>
+</div>
+</div>
+
+<script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<script src="{{ url_for('static', filename='js/pomodoroTimer.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script_music.js') }}"></script>
+
+<script>
+let sessionInput = document.getElementById('session-length');
+let breakInput = document.getElementById('break-length');
+let minutesDisplay = document.getElementById('minutes');
+let secondsDisplay = document.getElementById('seconds');
+let timerLabel = document.getElementById('timer-label');
+let startBtn = document.getElementById('start');
+let pauseBtn = document.getElementById('pause');
+let resetBtn = document.getElementById('reset');
+
+let timer = null;
+let isSession = true;
+let timeLeft = parseInt(sessionInput.value) * 60;
+
+function updateDisplay() {
+let min = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+let sec = String(timeLeft % 60).padStart(2, '0');
+minutesDisplay.textContent = min;
+secondsDisplay.textContent = sec;
+timerLabel.textContent = isSession ? 'Work Session' : 'Break Time';
+}
+
+function startTimer() {
+if (timer) return;
+timer = setInterval(() => {
+	if (timeLeft > 0) {
+	timeLeft--;
+	updateDisplay();
+	} else {
+	isSession = !isSession;
+	timeLeft = (isSession ? parseInt(sessionInput.value) : parseInt(breakInput.value)) * 60;
+	updateDisplay();
+	}
+}, 1000);
+}
+
+function pauseTimer() {
+clearInterval(timer);
+timer = null;
+}
+
+function resetTimer() {
+pauseTimer();
+isSession = true;
+timeLeft = parseInt(sessionInput.value) * 60;
+updateDisplay();
+}
+
+startBtn.onclick = function() {
+if (!timer) {
+	if (isSession) {
+	timeLeft = parseInt(sessionInput.value) * 60;
+	} else {
+	timeLeft = parseInt(breakInput.value) * 60;
+	}
+	updateDisplay();
+	}
+	startTimer();
+};
+
+pauseBtn.onclick = pauseTimer;
+resetBtn.onclick = resetTimer;
+
+sessionInput.onchange = function() {
+	if (isSession && !timer) {
+	timeLeft = parseInt(sessionInput.value) * 60;
+	updateDisplay();
+	}
+};
+
+breakInput.onchange = function() {
+	if (!isSession && !timer) {
+	timeLeft = parseInt(breakInput.value) * 60;
+	updateDisplay();
+	}
+};
+
+updateDisplay();
+</script>
+
+{% endblock %}
