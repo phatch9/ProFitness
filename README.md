@@ -91,9 +91,11 @@ Your project code can be in any directory.
 │       ├── clothes.html
 │       ├── contact.html
 │       ├── equipment.html
+│       ├── exercise_search.html
 │       ├── index copy.html
 │       ├── index.html
 │       ├── pomodoroTimer.html
+│       ├── set_workout.html
 │       ├── signin.html
 │       ├── signup.html
 │       ├── strength.html
@@ -102,11 +104,12 @@ Your project code can be in any directory.
 │       ├── tracker.html
 │       ├── user_dashboard.html
 │       └── user_dashboard_template.html
+│       ├── workout_detail.html
+│       ├── workout_history.html
 ├── install.bat
 ├── install.sh
 ├── myapp
 │   └── templates
-│       ├── base.html
 │       └── user_dashboard.html
 ├── requirements.txt
 └── app.py

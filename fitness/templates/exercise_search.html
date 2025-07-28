@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Exercise Search - ProFitness</title>
+{% endblock %}
+
+{% block content %}
+
+<style>
+.exercise-search {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.search-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.search-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.search-form {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.search-btn {
+  padding: 1rem 2rem;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.exercises-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.exercise-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.exercise-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.exercise-image {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 3rem;
+}
+
+.exercise-content {
+  padding: 1.5rem;
+}
+
+.exercise-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.exercise-description {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.exercise-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.exercise-tag {
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.tag-category {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.tag-difficulty {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.tag-equipment {
+  background: #e8f5e8;
+  color: #388e3c;
+}
+
+.exercise-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.calories-info {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.view-btn {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(45deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.view-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  color: white;
+  text-decoration: none;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+}
+
+.no-results h3 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.back-link:hover {
+  color: #764ba2;
+  text-decoration: none;
+  transform: translateX(-5px);
+}
+
+@media (max-width: 768px) {
+  .exercises-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .search-header h1 {
+    font-size: 2rem;
+  }
+}
+</style>
+
+<div class="exercise-search">
+  <!-- Back Link -->
+  <a href="{{ url_for('exercise_library') }}" class="back-link">
+    <i class="fas fa-arrow-left"></i>
+    Back to Exercise Library
+  </a>
+
+  <!-- Header -->
+  <div class="search-header">
+    <h1>Exercise Search</h1>
+    <p>Find exercises that match your needs</p>
+  </div>
+
+  <!-- Search Form -->
+  <div class="search-form">
+    <form method="GET" action="{{ url_for('exercise_search') }}">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search exercises by name, description, or muscle group..." class="search-input">
+      <button type="submit" class="search-btn">
+        <i class="fas fa-search"></i>
+        Search Exercises
+      </button>
+    </form>
+  </div>
+
+  <!-- Search Results -->
+  {% if query %}
+    <h2>Search Results for "{{ query }}"</h2>
+  {% endif %}
+
+  {% if exercises %}
+    <div class="exercises-grid">
+      {% for exercise in exercises %}
+        <div class="exercise-card">
+          <div class="exercise-image">
+            <i class="fas fa-dumbbell"></i>
+          </div>
+          <div class="exercise-content">
+            <h3 class="exercise-title">{{ exercise.name }}</h3>
+            <p class="exercise-description">
+              {{ exercise.description[:100] }}{% if exercise.description|length > 100 %}...{% endif %}
+            </p>
+            
+            <div class="exercise-meta">
+              <span class="exercise-tag tag-category">{{ exercise.category.title() }}</span>
+              <span class="exercise-tag tag-difficulty">{{ exercise.difficulty.title() }}</span>
+              {% if exercise.equipment and exercise.equipment != 'none' %}
+                <span class="exercise-tag tag-equipment">{{ exercise.equipment.title() }}</span>
+              {% endif %}
+            </div>
+            
+            <div class="exercise-stats">
+              <span class="calories-info">
+                {% if exercise.calories_per_minute %}
+                  ~{{ exercise.calories_per_minute }} cal/min
+                {% else %}
+                  Calories vary
+                {% endif %}
+              </span>
+              <a href="{{ url_for('exercise_detail', exercise_id=exercise.id) }}" class="view-btn">
+                View Details
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    {% if query %}
+      <div class="no-results">
+        <h3>No exercises found</h3>
+        <p>Try searching with different keywords or browse all exercises.</p>
+        <a href="{{ url_for('exercise_library') }}" class="search-btn" style="margin-top: 1rem;">
+          <i class="fas fa-list"></i>
+          Browse All Exercises
+        </a>
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% endblock %} 
