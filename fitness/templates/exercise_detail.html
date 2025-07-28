@@ -1,0 +1,387 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>{{ exercise.name }} - ProFitness</title>
+{% endblock %}
+
+{% block content %}
+
+<style>
+.exercise-detail {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.back-link:hover {
+  color: #764ba2;
+  text-decoration: none;
+  transform: translateX(-5px);
+}
+
+.exercise-header {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.exercise-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.exercise-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.exercise-tag {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.tag-category {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.tag-difficulty {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.tag-equipment {
+  background: #e8f5e8;
+  color: #388e3c;
+}
+
+.exercise-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.exercise-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.exercise-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.instructions-section {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.instructions-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.instructions-list {
+  list-style: none;
+  padding: 0;
+}
+
+.instructions-list li {
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #2c3e50;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.info-card {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.info-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-content {
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+.muscle-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.muscle-tag {
+  padding: 0.3rem 0.8rem;
+  background: #e3f2fd;
+  color: #1976d2;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.action-btn {
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  color: white;
+  text-decoration: none;
+}
+
+.btn-secondary {
+  background: #f8f9fa;
+  color: #6c757d;
+  border: 2px solid #e0e0e0;
+}
+
+.btn-secondary:hover {
+  background: #e9ecef;
+  color: #495057;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .exercise-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .exercise-title {
+    font-size: 2rem;
+  }
+  
+  .exercise-meta {
+    flex-direction: column;
+  }
+  
+  .exercise-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+
+<div class="exercise-detail">
+  <!-- Back Link -->
+  <a href="{{ url_for('exercise_library') }}" class="back-link">
+    <i class="fas fa-arrow-left"></i>
+    Back to Exercise Library
+  </a>
+
+  <!-- Exercise Header -->
+  <div class="exercise-header">
+    <h1 class="exercise-title">{{ exercise.name }}</h1>
+    
+    <div class="exercise-meta">
+      <span class="exercise-tag tag-category">{{ exercise.category.title() }}</span>
+      <span class="exercise-tag tag-difficulty">{{ exercise.difficulty.title() }}</span>
+      {% if exercise.equipment and exercise.equipment != 'none' %}
+        <span class="exercise-tag tag-equipment">{{ exercise.equipment.title() }}</span>
+      {% endif %}
+    </div>
+    
+    <p class="exercise-description">{{ exercise.description }}</p>
+    
+    <div class="exercise-stats">
+      <div class="stat-item">
+        <span class="stat-value">{{ exercise.category.title() }}</span>
+        <span class="stat-label">Category</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">{{ exercise.difficulty.title() }}</span>
+        <span class="stat-label">Difficulty</span>
+      </div>
+      {% if exercise.calories_per_minute %}
+        <div class="stat-item">
+          <span class="stat-value">~{{ exercise.calories_per_minute }}</span>
+          <span class="stat-label">Calories/min</span>
+        </div>
+      {% endif %}
+      <div class="stat-item">
+        <span class="stat-value">{{ exercise.equipment.title() if exercise.equipment else 'None' }}</span>
+        <span class="stat-label">Equipment</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exercise Content -->
+  <div class="exercise-content">
+    <!-- Instructions Section -->
+    <div class="instructions-section">
+      <h2 class="instructions-title">
+        <i class="fas fa-list-ol"></i>
+        How to Perform
+      </h2>
+      
+      {% if exercise.instructions %}
+        <ol class="instructions-list">
+          {% for instruction in exercise.instructions.split('\n') %}
+            {% if instruction.strip() %}
+              <li>{{ instruction.strip() }}</li>
+            {% endif %}
+          {% endfor %}
+        </ol>
+      {% else %}
+        <p class="info-content">Detailed instructions for this exercise are coming soon.</p>
+      {% endif %}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Muscle Groups -->
+      {% if exercise.muscle_group %}
+        <div class="info-card">
+          <h3 class="info-title">
+            <i class="fas fa-dumbbell"></i>
+            Target Muscles
+          </h3>
+          <div class="muscle-groups">
+            {% for muscle in exercise.muscle_group.split(', ') %}
+              <span class="muscle-tag">{{ muscle.title() }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Equipment -->
+      <div class="info-card">
+        <h3 class="info-title">
+          <i class="fas fa-tools"></i>
+          Equipment Needed
+        </h3>
+        <p class="info-content">
+          {% if exercise.equipment and exercise.equipment != 'none' %}
+            {{ exercise.equipment.title() }}
+          {% else %}
+            No equipment required - bodyweight exercise
+          {% endif %}
+        </p>
+      </div>
+
+      <!-- Tips -->
+      <div class="info-card">
+        <h3 class="info-title">
+          <i class="fas fa-lightbulb"></i>
+          Pro Tips
+        </h3>
+        <div class="info-content">
+          <ul style="padding-left: 1rem; margin: 0;">
+            <li>Focus on proper form over speed</li>
+            <li>Breathe steadily throughout the movement</li>
+            <li>Start with fewer reps and build up gradually</li>
+            <li>Listen to your body and stop if you feel pain</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <a href="{{ url_for('log_workout') }}?exercise={{ exercise.id }}" class="action-btn btn-primary">
+          <i class="fas fa-plus"></i>
+          Add to Workout
+        </a>
+        <a href="{{ url_for('exercise_library', category=exercise.category) }}" class="action-btn btn-secondary">
+          <i class="fas fa-search"></i>
+          Find Similar Exercises
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} 

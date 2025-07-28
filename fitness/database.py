@@ -21,6 +21,8 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     post_attribute = db.relationship('Post', backref='author', lazy=True)
     user_data = db.relationship('UserData', backref='user_database', lazy=True)
+    # NEW: Added relationship to workout history
+    workout_history = db.relationship('WorkoutHistory', backref='user', lazy=True)
     user_perk = db.Column(db.Integer, nullable=False)
     consumed = db.Column(db.Integer, nullable=True)
     burned = db.Column(db.Integer, nullable=True)
@@ -61,6 +63,69 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     complete = db.Column(db.Boolean)
+
+
+# NEW: Exercise Library Model
+class Exercise(db.Model):
+    __tablename__ = 'Exercise'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    category = db.Column(db.String(50), nullable=False)  # strength, cardio, flexibility, yoga
+    muscle_group = db.Column(db.String(100), nullable=True)  # chest, back, legs, etc.
+    difficulty = db.Column(db.String(20), nullable=False)  # beginner, intermediate, advanced
+    equipment = db.Column(db.String(100), nullable=True)  # none, dumbbells, barbell, etc.
+    instructions = db.Column(db.Text, nullable=True)
+    video_url = db.Column(db.String(200), nullable=True)
+    image_url = db.Column(db.String(200), nullable=True)
+    calories_per_minute = db.Column(db.Integer, nullable=True)
+    created_date = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    def __repr__(self):
+        return f"Exercise('{self.name}', '{self.category}', '{self.difficulty}')"
+
+
+# NEW: Workout History Model
+class WorkoutHistory(db.Model):
+    __tablename__ = 'WorkoutHistory'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    workout_name = db.Column(db.String(100), nullable=False)
+    workout_type = db.Column(db.String(50), nullable=False)  # cardio, strength, mixed, etc.
+    duration_minutes = db.Column(db.Integer, nullable=True)
+    calories_burned = db.Column(db.Integer, nullable=True)
+    date_completed = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    notes = db.Column(db.Text, nullable=True)
+    
+    # Relationship to workout exercises
+    exercises = db.relationship('WorkoutExercise', backref='workout', lazy=True, cascade='all, delete-orphan')
+    
+    def __repr__(self):
+        return f"WorkoutHistory('{self.workout_name}', '{self.date_completed}', '{self.calories_burned}')"
+
+
+# NEW: Workout Exercise Model (for tracking exercises in a workout)
+class WorkoutExercise(db.Model):
+    __tablename__ = 'WorkoutExercise'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    workout_id = db.Column(db.Integer, db.ForeignKey('WorkoutHistory.id'), nullable=False)
+    exercise_id = db.Column(db.Integer, db.ForeignKey('Exercise.id'), nullable=False)
+    sets = db.Column(db.Integer, nullable=True)
+    reps = db.Column(db.Integer, nullable=True)
+    weight = db.Column(db.Float, nullable=True)  # in kg/lbs
+    duration_seconds = db.Column(db.Integer, nullable=True)  # for timed exercises
+    distance = db.Column(db.Float, nullable=True)  # for cardio exercises
+    calories = db.Column(db.Integer, nullable=True)
+    order = db.Column(db.Integer, nullable=False)  # exercise order in workout
+    
+    # Relationship to exercise
+    exercise = db.relationship('Exercise', backref='workout_exercises')
+    
+    def __repr__(self):
+        return f"WorkoutExercise('{self.exercise_id}', 'Sets: {self.sets}', 'Reps: {self.reps}')"
 
 
 #create plan db

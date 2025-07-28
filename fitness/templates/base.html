@@ -75,16 +75,33 @@
                   Features
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="/user">{{ session['fname'] }}'s Dashboard</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/cardio">Cardio Session</a>
-                  <a class="dropdown-item" href="/strength">Anaerobic Session</a>
-                  <a class="dropdown-item" href="/todolist">To Do List</a>
-                  <a class="dropdown-item" href="/admin">Workout Tracking</a>
-                  <a class="dropdown-item" href="/pomodoroTimer">Pomodoro Timer</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/delete">Delete Account</a>
-                </div>
+                  <a class="dropdown-item" href="/user"
+                  >{{session['fname']}}'s Dashboard
+                </a>
+
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/cardio"
+                  >Cardio Session</a>
+
+                <a class="dropdown-item" href="/strength"
+                  >Anaerobic Session</a>
+                  
+                <a class="dropdown-item" href="/todolist">To Do List</a>
+                <a class="dropdown-item" href="/admin"
+                  >Workout Tracking</a
+                >
+                <a class="dropdown-item" href="/pomodoroTimer"
+                  >Timer & Music</a
+                >
+                <!-- Added Exercise Library and Workout History -->
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/exercises"
+                  >Exercise Library</a>
+                <a class="dropdown-item" href="/workout-history"
+                  >Workout History</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/delete">Delete Account</a>
+              </div>
               </li>
             
               {% else %}
