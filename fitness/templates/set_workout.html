@@ -1,0 +1,501 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Set Workout - ProFitness</title>
+{% endblock %}
+
+{% block content %}
+
+<style>
+.log-workout {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.log-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.log-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.log-header p {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+  margin-bottom: 2rem;
+}
+
+.workout-form {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.form-section {
+  margin-bottom: 2rem;
+}
+
+.form-section h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-select {
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-textarea {
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  min-height: 100px;
+  resize: vertical;
+  transition: all 0.3s ease;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.exercises-section {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.exercise-item {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+}
+
+.exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.exercise-name {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.remove-exercise {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.exercise-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.add-exercise-btn {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.add-exercise-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.submit-btn {
+  background: linear-gradient(45deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  font-size: 1.1rem;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.exercise-selector {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 2px dashed #e0e0e0;
+}
+
+.exercise-selector h4 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.exercise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.exercise-option {
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.exercise-option:hover {
+  border-color: #667eea;
+  background: #f8f9fa;
+}
+
+.exercise-option.selected {
+  border-color: #667eea;
+  background: #e3f2fd;
+}
+
+.exercise-option h5 {
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.exercise-option p {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .exercise-details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .exercise-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .log-header h1 {
+    font-size: 2rem;
+  }
+}
+</style>
+
+<div class="log-workout">
+  <!-- Header -->
+  <div class="log-header">
+    <h1>Set Your Workout</h1>
+    <p>Track your fitness progress and enjoy your achievements</p>
+  </div>
+
+  <!-- Workout Form -->
+  <form id="workoutForm" class="workout-form">
+    <!-- Basic Workout Info -->
+    <div class="form-section">
+      <h3>
+        <i class="fas fa-info-circle"></i>
+        Workout Information
+      </h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Workout Name</label>
+          <input type="text" name="workout_name" class="form-input" placeholder="e.g., Morning Cardio, Upper Body Strength" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Workout Type</label>
+          <select name="workout_type" class="form-select" required>
+            <option value="">Select Type</option>
+            <option value="cardio">Cardio</option>
+            <option value="strength">Strength Training</option>
+            <option value="flexibility">Flexibility Training</option>
+            <option value="mixed">Mixed</option>
+            <option value="yoga">Yoga</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Duration (minutes)</label>
+          <input type="number" name="duration_minutes" class="form-input" placeholder="45" min="1" max="300">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Calories  </label>
+          <input type="number" name="calories_burned" class="form-input" placeholder="300" min="0" max="2000">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Notes (optional)</label>
+        <textarea name="notes" class="form-textarea" placeholder="How did you feel? Any challenges or achievements?"></textarea>
+      </div>
+    </div>
+
+    <!-- Exercise Selector -->
+    <div class="form-section">
+      <h3>
+        <i class="fas fa-dumbbell"></i>
+        Add Exercises
+      </h3>
+      
+      <div class="exercise-selector">
+        <h4>Select Exercises</h4>
+        <div class="exercise-grid">
+          {% for exercise in exercises %}
+            <div class="exercise-option" data-exercise-id="{{ exercise.id }}" data-exercise-name="{{ exercise.name }}">
+              <h5>{{ exercise.name }}</h5>
+              <p>{{ exercise.category.title() }} • {{ exercise.difficulty.title() }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Selected Exercises -->
+    <div class="form-section">
+      <h3>
+        <i class="fas fa-list"></i>
+        Selected Exercises
+      </h3>
+      
+      <div id="selectedExercises" class="exercises-section">
+        <p style="text-align: center; color: #6c757d;">No exercises selected yet. Click on exercises above to add them.</p>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="submit-btn">
+      <i class="fas fa-save"></i>
+      Save Workout
+    </button>
+  </form>
+</div>
+
+<script>
+// Exercise selection functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const exerciseOptions = document.querySelectorAll('.exercise-option');
+    const selectedExercises = document.getElementById('selectedExercises');
+    let selectedExercisesList = [];
+
+    exerciseOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const exerciseId = this.dataset.exerciseId;
+            const exerciseName = this.dataset.exerciseName;
+            
+            // Toggle selection
+            if (this.classList.contains('selected')) {
+                this.classList.remove('selected');
+                selectedExercisesList = selectedExercisesList.filter(ex => ex.id !== exerciseId);
+            } else {
+                this.classList.add('selected');
+                selectedExercisesList.push({
+                    id: exerciseId,
+                    name: exerciseName
+                });
+            }
+            
+            updateSelectedExercises();
+        });
+    });
+
+    function updateSelectedExercises() {
+        if (selectedExercisesList.length === 0) {
+            selectedExercises.innerHTML = '<p style="text-align: center; color: #6c757d;">No exercises selected yet. Click on exercises above to add them.</p>';
+            return;
+        }
+
+        let html = '';
+        selectedExercisesList.forEach((exercise, index) => {
+            html += `
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-name">${exercise.name}</span>
+                        <button type="button" class="remove-exercise" onclick="removeExercise(${index})">Remove</button>
+                    </div>
+                    <div class="exercise-details">
+                        <div class="form-group">
+                            <label class="form-label">Sets</label>
+                            <input type="number" name="exercises[${index}][sets]" class="form-input" placeholder="3" min="1" max="20">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Reps</label>
+                            <input type="number" name="exercises[${index}][reps]" class="form-input" placeholder="12" min="1" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Weight (kg)</label>
+                            <input type="number" name="exercises[${index}][weight]" class="form-input" placeholder="0" min="0" max="500" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Duration (seconds)</label>
+                            <input type="number" name="exercises[${index}][duration_seconds]" class="form-input" placeholder="60" min="1" max="3600">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Distance (km)</label>
+                            <input type="number" name="exercises[${index}][distance]" class="form-input" placeholder="5" min="0" max="100" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Calories</label>
+                            <input type="number" name="exercises[${index}][calories]" class="form-input" placeholder="50" min="0" max="1000">
+                        </div>
+                    </div>
+                    <input type="hidden" name="exercises[${index}][exercise_id]" value="${exercise.id}">
+                </div>
+            `;
+        });
+        selectedExercises.innerHTML = html;
+    }
+
+    // Make removeExercise function global
+    window.removeExercise = function(index) {
+        selectedExercisesList.splice(index, 1);
+        updateSelectedExercises();
+        
+        // Update visual selection
+        exerciseOptions.forEach(option => {
+            const exerciseId = option.dataset.exerciseId;
+            if (!selectedExercisesList.find(ex => ex.id === exerciseId)) {
+                option.classList.remove('selected');
+            }
+        });
+    };
+
+    // Form submission
+    document.getElementById('workoutForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const workoutData = {
+            workout_name: formData.get('workout_name'),
+            workout_type: formData.get('workout_type'),
+            duration_minutes: parseInt(formData.get('duration_minutes')) || null,
+            calories_burned: parseInt(formData.get('calories_burned')) || null,
+            notes: formData.get('notes'),
+            exercises: []
+        };
+
+        // Collect exercise data
+        selectedExercisesList.forEach((exercise, index) => {
+            const exerciseData = {
+                exercise_id: parseInt(exercise.id),
+                sets: parseInt(formData.get(`exercises[${index}][sets]`)) || null,
+                reps: parseInt(formData.get(`exercises[${index}][reps]`)) || null,
+                weight: parseFloat(formData.get(`exercises[${index}][weight]`)) || null,
+                duration_seconds: parseInt(formData.get(`exercises[${index}][duration_seconds]`)) || null,
+                distance: parseFloat(formData.get(`exercises[${index}][distance]`)) || null,
+                calories: parseInt(formData.get(`exercises[${index}][calories]`)) || null
+            };
+            workoutData.exercises.push(exerciseData);
+        });
+
+        // Submit to server
+        fetch('/log-workout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(workoutData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Workout logged successfully!');
+                window.location.href = '/workout-history';
+            } else {
+                alert('Error logging workout: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error logging workout. Please try again.');
+        });
+    });
+});
+</script>
+
+{% endblock %} 
