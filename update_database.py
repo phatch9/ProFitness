@@ -27,7 +27,7 @@ def update_database():
             existing_exercises = Exercise.query.count()
             if existing_exercises == 0:
                 print("📝 No exercises found. You can populate the database by visiting:")
-                print("   http://localhost:5000/admin/populate-exercises")
+                print("   http://localhost:8000/admin/populate-exercises")
             else:
                 print(f"📊 Found {existing_exercises} exercises in the database.")
             

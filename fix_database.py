@@ -35,12 +35,12 @@ def fix_database():
             
             if exercise_count == 0:
                 print("\n💡 To populate with sample exercises, visit:")
-                print("   http://localhost:8080/admin/populate-exercises")
+                print("   http://localhost:8000/admin/populate-exercises")
             
             print("\n🎉 Database is ready!")
             print("You can now access:")
-            print("  • Exercise Library: http://localhost:8080/exercises")
-            print("  • Workout History: http://localhost:8080/workout-history")
+            print("  • Exercise Library: http://localhost:8000/exercises")
+            print("  • Workout History: http://localhost:8000/workout-history")
             
         except Exception as e:
             print(f"❌ Error creating tables: {e}")

@@ -14,7 +14,7 @@ pip3 install -r requirements.txt
 python3 app.py
 ```
 after that, open the url:
-http://localhost:8080/
+http://localhost:8000/
 
 Test the app with Demo ID/Password
 ```txt
