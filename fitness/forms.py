@@ -55,3 +55,24 @@ class CalorieWorkoutForm(FlaskForm):
     submit = SubmitField("Submit")
 
 
+# User Profile Form for editing user information
+class UserProfileForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired(), Length(min=min_name, max=max_name)])
+    last_name = StringField('Last Name', validators=[DataRequired(), Length(min=min_name, max=max_name)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    current_password = PasswordField('Current Password', validators=[DataRequired()])
+    new_password = PasswordField('New Password', validators=[Length(min=min_pw, max=max_pw)])
+    confirm_new_password = PasswordField('Confirm New Password', validators=[EqualTo('new_password')])
+    submit = SubmitField('Update Profile')
+
+    def __init__(self, original_email, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.original_email = original_email
+
+    def validate_email(self, email):
+        if email.data != self.original_email:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError('Email already used, please choose another email')
+
+

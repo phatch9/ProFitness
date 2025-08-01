@@ -1,7 +1,7 @@
 from __future__ import print_function
 from flask import redirect, url_for, render_template, flash, request, session, make_response, jsonify
 from fitness import app, db, bcrypt
-from fitness.forms import SignInForm, SignUpForm, itemForm, calorieForm, CalorieWorkoutForm
+from fitness.forms import SignInForm, SignUpForm, itemForm, calorieForm, CalorieWorkoutForm, UserProfileForm
 from fitness.database import User, Post, load_user, UserData, Todo, Exercise, WorkoutHistory, WorkoutExercise
 from flask_login import current_user, login_user, current_user, logout_user, login_required
 from fitness import nix
@@ -57,6 +57,41 @@ def user():
     total, monthly_calories, perk, achievement = calculate_workout()
     return render_template('user_dashboard.html', total=total, monthly_calories=monthly_calories, perk=perk,
                             achievement=achievement)
+
+# Route for user profile page
+@app.route("/profile", methods=['GET', 'POST'])
+@login_required
+def profile():
+    form = UserProfileForm(original_email=current_user.email)
+    if form.validate_on_submit():
+        # Verify current password
+        if bcrypt.check_password_hash(current_user.password, form.current_password.data):
+            # Update user information
+            current_user.fname = form.first_name.data
+            current_user.lname = form.last_name.data
+            current_user.email = form.email.data
+            
+            # Update password if provided
+            if form.new_password.data:
+                current_user.password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+            
+            # Update session
+            session['fname'] = current_user.fname
+            
+            db.session.commit()
+            flash('Your profile has been updated successfully!', 'success')
+            return redirect(url_for('profile'))
+        else:
+            flash('Current password is incorrect!', 'danger')
+    
+    elif request.method == 'GET':
+        form.first_name.data = current_user.fname
+        form.last_name.data = current_user.lname
+        form.email.data = current_user.email
+    
+    total, monthly_calories, perk, achievement = calculate_workout()
+    return render_template('profile.html', form=form, total=total, monthly_calories=monthly_calories, 
+                         perk=perk, achievement=achievement)
 
 #Route to contact page 
 @app.route("/contact")
