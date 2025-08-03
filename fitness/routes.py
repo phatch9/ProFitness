@@ -370,10 +370,10 @@ def workout_detail(workout_id):
     
     return render_template('workout_detail.html', workout=workout)
 
-@app.route("/log-workout", methods=['GET', 'POST'])
+@app.route("/set-workout", methods=['GET', 'POST'])
 @login_required
-def log_workout():
-    """Log a new workout"""
+def set_workout():
+    """Set a new workout"""
     if request.method == 'POST':
         try:
             data = request.get_json()
@@ -422,7 +422,7 @@ def log_workout():
     
     # GET request - show form
     exercises = Exercise.query.order_by(Exercise.name).all()
-    return render_template('log_workout.html', exercises=exercises)
+    return render_template('set_workout.html', exercises=exercises)
 
 @app.route("/api/exercises")
 @login_required

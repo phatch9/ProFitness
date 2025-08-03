@@ -7,25 +7,25 @@
 {% block content %}
 
 <style>
-.log-workout {
+.set-workout {
   max-width: 1000px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
 
-.log-header {
+.set-header {
   text-align: center;
   margin-bottom: 3rem;
 }
 
-.log-header h1 {
+.set-header h1 {
   font-size: 2.5rem;
   font-weight: 700;
   color: #2c3e50;
   margin-bottom: 0.5rem;
 }
 
-.log-header p {
+.set-header p {
   font-size: 1.1rem;
   color: #7f8c8d;
   margin-bottom: 2rem;
@@ -256,15 +256,15 @@
     grid-template-columns: 1fr;
   }
   
-  .log-header h1 {
+  .set-header h1 {
     font-size: 2rem;
   }
 }
 </style>
 
-<div class="log-workout">
+<div class="set-workout">
   <!-- Header -->
-  <div class="log-header">
+  <div class="set-header">
     <h1>Set Your Workout</h1>
     <p>Track your fitness progress and enjoy your achievements</p>
   </div>
@@ -474,7 +474,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Submit to server
-        fetch('/log-workout', {
+        fetch('/set-workout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -487,12 +487,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Workout logged successfully!');
                 window.location.href = '/workout-history';
             } else {
-                alert('Error logging workout: ' + data.error);
+                alert('Error workout: ' + data.error);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Error logging workout. Please try again.');
+            alert('Error setting workout. Please try again.');
         });
     });
 });
