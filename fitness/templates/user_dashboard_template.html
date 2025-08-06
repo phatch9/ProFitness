@@ -197,7 +197,9 @@
                       </div>
                     </div>
                     <div>
-                      <div class="small text-gray-500">January 20th, 2024</div>
+                      <div class="small text-gray-500">
+                        <span id="alert-date"></span>
+                      </div>
                       <span class="font-weight-bold">Welcome to ProFitness</span>
                     </div>
                   </a>
@@ -499,5 +501,15 @@
     <!-- Page level custom scripts -->
     <!--<script src="static/js/demo/chart-area-demo.js"></script>-->
     <script src="static/js/demo/chart-pie-demo.js"></script>
+    <script>
+      // Update the alert date in real time
+      function updateAlertDate() {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('alert-date').textContent = now.toLocaleDateString(undefined, options);
+      }
+      updateAlertDate();
+      setInterval(updateAlertDate, 60000); // Update every minute
+    </script>
   </body>
 </html>
