@@ -64,7 +64,7 @@
                     <h6 class="font-weight-bold text-primary">Change Password (Optional)</h6>
                     <div class="form-group">
                         {{ form.current_password.label(class="form-control-label") }}
-                        {% if form.current_password.errors %}
+                        {% if form.current_password.errors and (form.current_password.data or form.new_password.data or form.confirm_new_password.data) %}
                             {{ form.current_password(class="form-control is-invalid") }}
                             <div class="invalid-feedback">
                                 {% for error in form.current_password.errors %}
@@ -79,7 +79,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 {{ form.new_password.label(class="form-control-label") }}
-                                {% if form.new_password.errors %}
+                                {% if form.new_password.errors and (form.current_password.data or form.new_password.data or form.confirm_new_password.data) %}
                                     {{ form.new_password(class="form-control is-invalid") }}
                                     <div class="invalid-feedback">
                                         {% for error in form.new_password.errors %}
@@ -94,7 +94,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 {{ form.confirm_new_password.label(class="form-control-label") }}
-                                {% if form.confirm_new_password.errors %}
+                                {% if form.confirm_new_password.errors and (form.current_password.data or form.new_password.data or form.confirm_new_password.data) %}
                                     {{ form.confirm_new_password(class="form-control is-invalid") }}
                                     <div class="invalid-feedback">
                                         {% for error in form.confirm_new_password.errors %}
@@ -209,4 +209,4 @@
         {% endfor %}
     {% endif %}
 {% endwith %}
-{% endblock %} 
+{% endblock %}

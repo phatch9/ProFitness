@@ -19,7 +19,7 @@ http://localhost:8000/
 Test the app with Demo ID/Password
 ```txt
 Email: test123@gmail.com
-Password: 1111111111
+Password: 0000000000
 ```
 
 [Pip install throws error: externally-managed-environment]
