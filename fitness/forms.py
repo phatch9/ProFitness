@@ -1,6 +1,6 @@
-from wtforms import StringField, DecimalField, PasswordField, SubmitField, Form, validators, BooleanField, TextAreaField
 from flask_wtf import FlaskForm
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import StringField, DecimalField, PasswordField, SubmitField, Form, validators, BooleanField, TextAreaField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Optional
 from fitness.database import User, Post
 
 min_name = 2
@@ -60,9 +60,9 @@ class UserProfileForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired(), Length(min=min_name, max=max_name)])
     last_name = StringField('Last Name', validators=[DataRequired(), Length(min=min_name, max=max_name)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    current_password = PasswordField('Current Password', validators=[DataRequired()])
-    new_password = PasswordField('New Password', validators=[Length(min=min_pw, max=max_pw)])
-    confirm_new_password = PasswordField('Confirm New Password', validators=[EqualTo('new_password')])
+    current_password = PasswordField('Current Password', validators=[Optional()])
+    new_password = PasswordField('New Password', validators=[Optional()])
+    confirm_new_password = PasswordField('Confirm New Password', validators=[Optional(), EqualTo('new_password', message='Passwords must match')])
     submit = SubmitField('Update Profile')
 
     def __init__(self, original_email, *args, **kwargs):
@@ -74,5 +74,23 @@ class UserProfileForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('Email already used, please choose another email')
+
+    def validate(self):
+        rv = FlaskForm.validate(self)
+        if not rv:
+            return False
+
+        # Only require password fields if any are filled
+        if self.current_password.data or self.new_password.data or self.confirm_new_password.data:
+            if not self.current_password.data:
+                self.current_password.errors.append('Current password is required to change password.')
+                return False
+            if not self.new_password.data:
+                self.new_password.errors.append('New password is required.')
+                return False
+            if not self.confirm_new_password.data:
+                self.confirm_new_password.errors.append('Please confirm your new password.')
+                return False
+        return True
 
 
