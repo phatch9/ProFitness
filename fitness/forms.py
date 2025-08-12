@@ -94,3 +94,31 @@ class UserProfileForm(FlaskForm):
         return True
 
 
+# Profile form class
+class ProfileForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    current_password = PasswordField('Current Password', validators=[Optional()])
+    new_password = PasswordField('New Password', validators=[Optional()])
+    confirm_new_password = PasswordField('Confirm New Password', validators=[Optional(), EqualTo('new_password', message='Passwords must match')])
+
+    def validate(self):
+        rv = FlaskForm.validate(self)
+        if not rv:
+            return False
+
+        # Only require password fields if any are filled
+        if self.current_password.data or self.new_password.data or self.confirm_new_password.data:
+            if not self.current_password.data:
+                self.current_password.errors.append('Current password is required to change password.')
+                return False
+            if not self.new_password.data:
+                self.new_password.errors.append('New password is required.')
+                return False
+            if not self.confirm_new_password.data:
+                self.confirm_new_password.errors.append('Please confirm your new password.')
+                return False
+        return True
+
+
