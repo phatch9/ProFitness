@@ -1,0 +1,17 @@
+{
+  "name": "profitness",
+  "version": "1.0.0",
+  "description": "ProFitness - Fitness tracking application with Pomodoro timer",
+  "main": "src/js/main.js",
+  "scripts": {
+    "build": "esbuild src/js/main.js --bundle --outfile=fitness/static/js/bundle.js --format=iife",
+    "dev": "esbuild src/js/main.js --bundle --outfile=fitness/static/js/bundle.js --watch --format=iife",
+    "build:prod": "esbuild src/js/main.js --bundle --outfile=fitness/static/js/bundle.min.js --minify --format=iife"
+  },
+  "keywords": ["fitness", "timer", "pomodoro"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.19.0"
+  }
+}
