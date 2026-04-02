@@ -6,12 +6,24 @@
   "scripts": {
     "build": "esbuild src/js/main.js --bundle --outfile=fitness/static/js/bundle.js --format=iife",
     "dev": "esbuild src/js/main.js --bundle --outfile=fitness/static/js/bundle.js --watch --format=iife",
-    "build:prod": "esbuild src/js/main.js --bundle --outfile=fitness/static/js/bundle.min.js --minify --format=iife"
+    "build:prod": "esbuild src/js/main.js --bundle --outfile=fitness/static/js/bundle.min.js --minify --format=iife",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
-  "keywords": ["fitness", "timer", "pomodoro"],
+  "keywords": [
+    "fitness",
+    "timer",
+    "pomodoro"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "esbuild": "^0.19.0"
+    "@babel/preset-env": "^7.29.2",
+    "babel-jest": "^30.3.0",
+    "esbuild": "^0.19.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^30.3.0"
   }
 }
