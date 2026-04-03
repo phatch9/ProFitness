@@ -12,12 +12,12 @@ describe('Timer Module', () => {
   beforeEach(() => {
     // Create mock DOM elements
     const mockElement = (value) => ({
-      value,
-      textContent: '',
-      disabled: false,
-      className: '',
-      addEventListener: jest.fn(),
-      classList: {
+        value,
+        textContent: '',
+        disabled: false,
+        className: '',
+        addEventListener: jest.fn(),
+        classList: {
         add: jest.fn(),
         remove: jest.fn(),
         toggle: jest.fn()
@@ -129,16 +129,16 @@ describe('Timer Module', () => {
     });
 
     test('should stop timer from decrementing after pause', () => {
-      timer.start();
-      const timeAtPause = timer.timeLeft;
+        timer.start();
+        const timeAtPause = timer.timeLeft;
 
-      jest.advanceTimersByTime(1000);
-      timer.pause();
-      const pausedTime = timer.timeLeft;
+        jest.advanceTimersByTime(1000);
+        timer.pause();
+        const pausedTime = timer.timeLeft;
 
-      jest.advanceTimersByTime(1000);
+        jest.advanceTimersByTime(1000);
 
-      expect(timer.timeLeft).toBe(pausedTime);
+        expect(timer.timeLeft).toBe(pausedTime);
     });
   });
 
@@ -165,9 +165,9 @@ describe('Timer Module', () => {
     });
 
     test('should reset display to initial time', () => {
-      timer.timeLeft = 100;
-      timer.updateDisplay();
-      timer.reset();
+        timer.timeLeft = 100;
+        timer.updateDisplay();
+        timer.reset();
 
       expect(mockConfig.minutesDisplay.textContent).toBe('25');
       expect(mockConfig.secondsDisplay.textContent).toBe('00');
