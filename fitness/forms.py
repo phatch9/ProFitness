@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, DecimalField, PasswordField, SubmitField, Form, validators, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Optional
-from fitness.database import User, Post
+from fitness.models import User, Post
 
 min_name = 2
 max_name = 20
