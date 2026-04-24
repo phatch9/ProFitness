@@ -13,7 +13,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 try:
     from fitness import app, db
     from fitness.database import Exercise, WorkoutHistory, WorkoutExercise
-    print("✅ Successfully imported database models")
+    print("Successfully imported database models")
 except ImportError as e:
     print(f"Import error: {e}")
     print("This might be because the database models haven't been created yet.")
@@ -27,23 +27,23 @@ def fix_database():
         try:
             # Create all tables
             db.create_all()
-            print("✅ Database tables created successfully!")
+            print("Database tables created successfully!")
             
             # Check if exercises exist
             exercise_count = Exercise.query.count()
-            print(f"📊 Found {exercise_count} exercises in database")
+            print(f"Found {exercise_count} exercises in database")
             
             if exercise_count == 0:
-                print("\n💡 To populate with sample exercises, visit:")
+                print("\nTo populate with sample exercises, visit:")
                 print("   http://localhost:8000/admin/populate-exercises")
             
-            print("\n🎉 Database is ready!")
+            print("\n Database is ready!")
             print("You can now access:")
             print("  • Exercise Library: http://localhost:8000/exercises")
             print("  • Workout History: http://localhost:8000/workout-history")
             
         except Exception as e:
-            print(f"❌ Error creating tables: {e}")
+            print(f" Error creating tables: {e}")
             return False
     
     return True
