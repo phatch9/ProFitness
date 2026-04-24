@@ -2,7 +2,7 @@ from __future__ import print_function
 from flask import redirect, url_for, render_template, flash, request, session, make_response, jsonify
 from fitness import app, db, bcrypt
 from fitness.forms import SignInForm, SignUpForm, itemForm, calorieForm, CalorieWorkoutForm, UserProfileForm
-from fitness.database import User, Post, load_user, UserData, Todo, Exercise, WorkoutHistory, WorkoutExercise
+from fitness.models import User, Post, UserData, Todo, Exercise, WorkoutHistory, WorkoutExercise
 from flask_login import current_user, login_user, current_user, logout_user, login_required
 from fitness import nix
 from fitness.createplan import *
