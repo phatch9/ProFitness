@@ -12,7 +12,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 try:
     from fitness import app, db
-    from fitness.database import Exercise, WorkoutHistory, WorkoutExercise
+    from fitness.models import Exercise, WorkoutHistory, WorkoutExercise
     print("Successfully imported database models")
 except ImportError as e:
     print(f"Import error: {e}")
