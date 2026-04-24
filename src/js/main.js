@@ -18,10 +18,10 @@ const timer = new Timer({
     resetBtn: document.getElementById('reset'),
     onSessionChange: (isSession) => {
     // Play notification sound when session changes
-    if (musicPlayer && musicPlayer.audio && musicPlayer.audio.readyState >= 2) {
-      musicPlayer.audio.play().catch(e => console.log('Audio play failed:', e));
+        if (musicPlayer && musicPlayer.audio && musicPlayer.audio.readyState >= 2) {
+            musicPlayer.audio.play().catch(e => console.log('Audio play failed:', e));
+        }
     }
-  }
 });
 
 // Initialize Music Player with songs
@@ -29,15 +29,15 @@ const timer = new Timer({
 const songs = window.POMODORO_SONGS || [];
 
 const musicPlayer = new MusicPlayer({
-  audio: document.getElementById('audio'),
-  playBtn: document.getElementById('play'),
-  prevBtn: document.getElementById('prev'),
-  nextBtn: document.getElementById('next'),
-  progress: document.getElementById('progress'),
-  progressContainer: document.getElementById('progress-container'),
-  cover: document.getElementById('cover'),
-  musicTitle: document.getElementById('music-title'),
-  songs: songs
+    audio: document.getElementById('audio'),
+    playBtn: document.getElementById('play'),
+    prevBtn: document.getElementById('prev'),
+    nextBtn: document.getElementById('next'),
+    progress: document.getElementById('progress'),
+    progressContainer: document.getElementById('progress-container'),
+    cover: document.getElementById('cover'),
+    musicTitle: document.getElementById('music-title'),
+    songs: songs
 });
 
 // Expose globally for debugging
